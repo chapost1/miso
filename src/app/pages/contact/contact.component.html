@@ -1,0 +1,56 @@
+<div>
+    <h1>{{langService.currentLang.app.pages.contact.title}}</h1>
+    <p>{{langService.currentLang.app.pages.contact.subtitle}}</p>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div>
+            <mat-form-field>
+                <mat-label>{{langService.currentLang.app.pages.contact.content.form.controls.name.label}}</mat-label>
+                <input matInput
+                    placeholder="{{langService.currentLang.app.pages.contact.content.form.controls.name.placeholder}}"
+                    formControlName="name">
+                <mat-icon matPrefix>
+                    <span class="material-icons px-1">
+                        person
+                    </span>
+                </mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field>
+                <mat-label>{{langService.currentLang.app.pages.contact.content.form.controls.email.label}}</mat-label>
+                <input matInput
+                    placeholder="{{langService.currentLang.app.pages.contact.content.form.controls.email.placeholder}}"
+                    formControlName="email">
+                <mat-icon matPrefix>
+                    <span class="material-icons px-1">
+                        email
+                    </span>
+                </mat-icon>
+                <mat-error *ngIf="contactForm.controls['email']?.invalid">{{getErrorMessage('email')}}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field>
+                <mat-label>{{langService.currentLang.app.pages.contact.content.form.controls.message.label}}</mat-label>
+                <textarea matInput
+                    placeholder="{{langService.currentLang.app.pages.contact.content.form.controls.message.placeholder}}"
+                    formControlName="message"></textarea>
+                <mat-icon matPrefix>
+                    <span class="material-icons px-1">
+                        message
+                    </span>
+                </mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!contactForm.valid">
+                {{langService.currentLang.app.pages.contact.content.form.submit.label}}
+            </button>
+        </div>
+
+    </form>
+</div>

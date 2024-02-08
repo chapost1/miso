@@ -1,0 +1,7 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+// add to .app-footer the background color of the theme
+.app-footer {
+    background-color: mat.get-color-from-palette(mat.$indigo-palette, 50);
+}

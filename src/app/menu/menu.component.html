@@ -1,0 +1,37 @@
+<div class="menu-component shadow-sm">
+    <div class="menu-content">
+
+        <a (click)="navigateSibling('home')" 
+        matTooltip="{{langService.currentLang.app.menu.home}}"
+        >
+            <button mat-button>
+                <img [width]="50" src="assets/m.png" alt="Miso" />
+            </button>
+        </a>
+
+        <div>
+
+            <a (click)="navigateSibling('exam')">
+                <button mat-button>{{langService.currentLang.app.menu.exam}}</button>
+            </a>
+
+            <a (click)="navigateSibling('contact')">
+                <button mat-button>{{langService.currentLang.app.menu.contact}}</button>
+            </a>
+
+            <!-- Language Button -->
+            <button mat-button [matMenuTriggerFor]="aboveMenu">
+                <span class="material-icons">
+                    language
+                </span>
+            </button>
+            <mat-menu #aboveMenu="matMenu" yPosition="below">
+                <section *ngFor="let lang of langService.lans">
+                    <button *ngIf="lang.key != langService.currentLang.code" mat-menu-item (click)="langService.setLang(lang.key)">{{lang.value}}</button>
+                </section>
+            </mat-menu>
+            <!-- Language Button -->
+
+        </div>
+    </div>
+</div>
