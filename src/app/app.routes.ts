@@ -5,7 +5,7 @@ import PagesRoutes from './pages/pages.routes';
 import { defaultLang } from './services/lang.service';
 
 const routes: Routes = [
-    {path: '', redirectTo: `/${defaultLang}/home`, pathMatch: 'full'},
+    {path: '', redirectTo: `/${defaultLang}`, pathMatch: 'full'},
     {path: ':lang', redirectTo: `/:lang/home`, pathMatch: 'full'},
     {path: ':lang', component: PagesComponent, children: PagesRoutes}
 ];
