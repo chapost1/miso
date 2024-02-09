@@ -190,14 +190,16 @@ const text: LangTextObject = {
 
 type Lang = keyof LangTextObject;
 
-const defaultLang: Lang = 'en';
+export const defaultLang: Lang = 'en';
+
+export const langs: Lang[] = Object.keys(text);
 
 @Injectable({
   providedIn: 'root'
 })
 export class LangService {
   currentLang: LangText = text[defaultLang];
-  lans = Object.keys(text).map(key => ({key, value: text[key].name}));
+  lans = langs.map(key => ({key, value: text[key].name}));
   lansByKey = {
     en: 'en',
     he: 'he'
