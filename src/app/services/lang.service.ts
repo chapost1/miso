@@ -13,6 +13,10 @@ interface LangText {
       lang: string;
     };
     pages: {
+      notFound: {
+        title: string;
+        subtitle: string;
+      };
       home: {
         title: string;
         subtitle: string;
@@ -79,6 +83,10 @@ const text: LangTextObject = {
         lang: 'Language'
       },
       pages: {
+        notFound: {
+          title: 'Not Found',
+          subtitle: 'The page you are looking for does not exist'
+        },
         home: {
           title: 'Welcome to MisoPhonia Exam',
           subtitle: 'A new way to test your misophonia'
@@ -139,6 +147,10 @@ const text: LangTextObject = {
         lang: 'שפה'
       },
       pages: {
+        notFound: {
+          title: 'לא נמצא',
+          subtitle: 'הדף שאתה מחפש לא קיים'
+        },
         home: {
           title: 'ברוך הבא למבחן מיסופוניה',
           subtitle: 'דרך חדשה לבדוק את המיסופוניה שלך'

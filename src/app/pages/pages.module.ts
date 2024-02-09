@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { ExamComponent } from './exam/exam.component';
 import { ContactComponent } from './contact/contact.component';
 import { PagesComponent } from './pages.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [],
@@ -16,7 +17,8 @@ import { PagesComponent } from './pages.component';
     ContactComponent,
     PagesComponent,
     CommonModule,
-    ExamModule
+    ExamModule,
+    NotFoundComponent
   ],
   providers: []
 })
