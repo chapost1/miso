@@ -33,6 +33,12 @@ interface LangText {
             displayStudyButton: {
               label: string;
             };
+            downloadPdfButton: {
+              label: string;
+            };
+            closeDialogButton: {
+              label: string;
+            };
             state: {
               exams: {
                 psychoacoustic: Exam;
@@ -118,6 +124,12 @@ const text: LangTextObject = {
               },
               displayStudyButton: {
                 label: 'Display Study'
+              },
+              downloadPdfButton: {
+                label: 'Download PDF'
+              },
+              closeDialogButton: {
+                label: 'Close'
               },
               state: {
                 exams: {
@@ -221,6 +233,12 @@ const text: LangTextObject = {
               displayStudyButton: {
                 label: 'הצג מחקר'
               },
+              downloadPdfButton: {
+                label: 'PDF הורד'
+              },
+              closeDialogButton: {
+                label: 'סגור'
+              },
               state: {
                 exams: {
                   psychoacoustic: new Exam({
@@ -230,10 +248,10 @@ const text: LangTextObject = {
                       headphones: true,
                       camera: false
                     },
-                    description: 'בצע הערכת עצמית מקוונת קצרה כדי לגלות את הרגישות שלך לצלילים ספציפיים! ענה על שאלות והקש להקלטות של צלילים שונים. המבחן מהיר, יעיל ומדויק ב-91%, ויעזור לך לחשוף את רמת המיזופוניה שלך.',
+                    description: 'בצע הערכת עצמית מקוונת קצרה כדי לגלות את הרגישות שלך לצלילים ספציפיים! ענה על שאלות והקש להקלטות של צלילים שונים. המבחן מהיר, יעיל ומדויק ב-91%, ויעזור לך לחשוף את רמת המיסופוניה שלך.',
                     navigationLink: '../exams/psycho-acoustic',
                     imageAssetSrc: 'assets/images/exams/sound-waves.webp',
-                    studyPdfAssetSrc: 'assets/studies/psychoacoustic-test.pdf'
+                    studyPdfAssetSrc: '/assets/studies/psychoacoustic-test.pdf'
                   }),
                   selfReport: new Exam({
                     name: 'מבחן דיווח עצמי',
@@ -245,7 +263,7 @@ const text: LangTextObject = {
                     description: 'בצע מבחן עצמי מהיר ומדויק לזיהוי תסמיני מיסופוניה! המבחן, שפותח על ידי אנשי מקצוע, מתאם בצורה חזקה עם גורמים חשובים כמו כעס, ומחפש באופן יעיל מבוגרים עם מיסופוניה משמעותית מבחינה קלינית. הוא עוקף מבחנים אחרים בזיהוי מדויק של התסמינים.',
                     navigationLink: '../exams/psycho-acoustic',
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
-                    studyPdfAssetSrc: 'assets/studies/psychoacoustic-test.pdf'
+                    studyPdfAssetSrc: '/assets/studies/psychoacoustic-test.pdf'
                   }),
                 }
               }

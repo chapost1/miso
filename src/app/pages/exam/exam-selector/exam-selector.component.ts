@@ -14,6 +14,27 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 
+interface ExamSelectorLangData {
+  selectButton: {
+    label: string;
+  };
+  displayStudyButton: {
+    label: string;
+  };
+  downloadPdfButton: {
+    label: string;
+  };
+  closeDialogButton: {
+    label: string;
+  };
+  state: {
+    exams: {
+      psychoacoustic: Exam;
+      selfReport: Exam;
+    }
+  }
+}
+
 @Component({
   selector: 'app-exam-selector',
   standalone: true,
@@ -33,7 +54,7 @@ export class ExamSelectorComponent {
   ) { }
 
   public getExams(): Exam[] {
-    const examsByKey = <{ [key: string]: Exam }>this.langService.currentLang.app.pages.exam.children.examSelector.state.exams;
+    const examsByKey = <{ [key: string]: Exam }>this.getExamSelectorLangData().state.exams;
     return Object.keys(examsByKey).map(key => examsByKey[key]);
   }
 
@@ -45,8 +66,15 @@ export class ExamSelectorComponent {
       width: "calc(100% - 32px)",
       maxWidth: "calc(100%)",
       maxHeight: "calc(100%)",
-      data: exam
+      data: {
+        exam,
+        getExamSelectorLangData: this.getExamSelectorLangData.bind(this)
+      }
     });
+  }
+
+  private getExamSelectorLangData(): ExamSelectorLangData {
+    return this.langService.currentLang.app.pages.exam.children.examSelector;
   }
 }
 
@@ -54,19 +82,18 @@ export class ExamSelectorComponent {
   selector: 'exam-selector-exam-study-dialog',
   template: `
   <div class="text-center bg-dark p-1">
-    <a [href]="data.studyPdfAssetSrc" download="study.pdf" target="_blank" class="text-white">
-      Download PDF
+    <a [href]="pdfSrc" download="study.pdf" target="_blank" class="text-white">
+      {{downloadPdfButtonLabel}}
     </a>
   </div>
-  <pdf-viewer [src]="data.studyPdfAssetSrc"
+  <pdf-viewer [src]="pdfSrc"
             [render-text]="true"
             [original-size]="false"
             [zoom]="0.5"
             style="width: calc(100%); height: 100%; text-align: center; margin: 16px auto; display: block;"
   ></pdf-viewer>
-  <!-- buttons -->
   <div class="text-center my-1">
-    <button mat-raised-button color="primary" (click)="dialog.closeAll()">Close</button>
+    <button mat-raised-button color="primary" (click)="dialog.closeAll()">{{closeDialogButtonLabel}}</button>
   </div>
   `,
   standalone: true,
@@ -75,6 +102,20 @@ export class ExamSelectorComponent {
 class ExamSelectorExamStudyDialog {
   constructor(
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: Exam,
+    @Inject(MAT_DIALOG_DATA) public data: {
+      exam: Exam,
+      getExamSelectorLangData: () => ExamSelectorLangData},
   ) { }
+
+  public get closeDialogButtonLabel(): string {
+    return this.data.getExamSelectorLangData().closeDialogButton.label;
+  }
+
+  public get downloadPdfButtonLabel(): string {
+    return this.data.getExamSelectorLangData().downloadPdfButton.label;
+  }
+
+  public get pdfSrc(): string {
+    return this.data.exam.studyPdfAssetSrc;
+  }
 }
