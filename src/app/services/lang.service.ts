@@ -131,7 +131,7 @@ const text: LangTextObject = {
                     description: 'Undertake a modern misophonia self-assessment. Rate online sounds, answer questions, and unveil your misophonia score—an efficient, 91% accurate revelation of your sensitivity to specific sounds.',
                     navigationLink: '../exams/psycho-acoustic',
                     imageAssetSrc: 'assets/images/exams/sound-waves.webp',
-                    studyPdfAssetSrc: 'assets/studies/psychoacoustic-test.pdf'
+                    studyPdfAssetSrc: '/assets/studies/psychoacoustic-test.pdf'
                   }),
                   selfReport: new Exam({
                     name: 'Self Report Exam',
@@ -143,7 +143,7 @@ const text: LangTextObject = {
                     description: 'A reliable self-assessment for misophonia symptoms, correlating strongly with key factors like anger/aggression. Outperforms other measures, efficiently identifying adults with clinically significant misophonia.',
                     navigationLink: '../exams/self-report',
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
-                    studyPdfAssetSrc: 'assets/studies/duke-self-report.pdf'
+                    studyPdfAssetSrc: '/assets/studies/duke-self-report.pdf'
                   })
                 }
               }

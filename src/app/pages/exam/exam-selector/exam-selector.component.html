@@ -22,7 +22,7 @@
                 <mat-card-subtitle>{{exam.note}}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image class="exam-selector-option-image py-1" src="{{exam.imageAssetSrc}}">
-            <mat-card-content>
+            <mat-card-content>  
                 <p>
                     {{exam.description}}
                 </p>
@@ -32,6 +32,7 @@
                 <button [routerLink]="[exam.navigationLink]"
                     mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.selectButton.label}}</button>
                 <button
+                    (click)="onDisplayExamStudy(exam)"
                     mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.displayStudyButton.label}}</button>
             </mat-card-actions>
         </mat-card>
