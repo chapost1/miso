@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import Exam from '../core/exam';
 
 interface LangText {
   code: string;
@@ -24,6 +25,22 @@ interface LangText {
       exam: {
         title: string;
         subtitle: string;
+        children: {
+          examSelector: {
+            selectButton: {
+              label: string;
+            };
+            displayStudyButton: {
+              label: string;
+            };
+            state: {
+              exams: {
+                psychoacoustic: Exam;
+                selfReport: Exam;
+              }
+            }
+          }
+        };
       };
       contact: {
         title: string;
@@ -93,7 +110,45 @@ const text: LangTextObject = {
         },
         exam: {
           title: 'MisoPhonia Exam',
-          subtitle: 'Please select your preferred way to test your misophonia'
+          subtitle: 'Please select your preferred way to test your misophonia',
+          children: {
+            examSelector: {
+              selectButton: {
+                label: 'Select'
+              },
+              displayStudyButton: {
+                label: 'Display Study'
+              },
+              state: {
+                exams: {
+                  psychoacoustic: new Exam({
+                    name: 'Psychoacoustic Exam',
+                    note: 'Suitable for quiet environments and focus on sounds',
+                    accessoriesRequirements: {
+                      headphones: true,
+                      camera: false
+                    },
+                    description: 'Undertake a modern misophonia self-assessment. Rate online sounds, answer questions, and unveil your misophonia score—an efficient, 91% accurate revelation of your sensitivity to specific sounds.',
+                    navigationLink: '../exams/psycho-acoustic',
+                    imageAssetSrc: 'assets/images/exams/sound-waves.webp',
+                    studyPdfAssetSrc: 'assets/studies/psychoacoustic-test.pdf'
+                  }),
+                  selfReport: new Exam({
+                    name: 'Self Report Exam',
+                    note: 'Select this exam if you are not able to focus on sounds',
+                    accessoriesRequirements: {
+                      headphones: false,
+                      camera: false
+                    },
+                    description: 'A reliable self-assessment for misophonia symptoms, correlating strongly with key factors like anger/aggression. Outperforms other measures, efficiently identifying adults with clinically significant misophonia.',
+                    navigationLink: '../exams/self-report',
+                    imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
+                    studyPdfAssetSrc: 'assets/studies/duke-self-report.pdf'
+                  })
+                }
+              }
+            }
+          }
         },
         contact: {
           title: 'Contact Us',
@@ -157,7 +212,45 @@ const text: LangTextObject = {
         },
         exam: {
           title: 'מבחן מיסופוניה',
-          subtitle: 'אנא בחר את הדרך המועדפת עליך לבדוק את המיסופוניה שלך'
+          subtitle: 'אנא בחר את הדרך המועדפת עליך לבדוק את המיסופוניה שלך',
+          children: {
+            examSelector: {
+              selectButton: {
+                label: 'בחר'
+              },
+              displayStudyButton: {
+                label: 'הצג מחקר'
+              },
+              state: {
+                exams: {
+                  psychoacoustic: new Exam({
+                    name: 'מבחן פסיכואקוסטי',
+                    note: 'מתאים לסביבה שקטה ולהתמקדות ברעשים',
+                    accessoriesRequirements: {
+                      headphones: true,
+                      camera: false
+                    },
+                    description: 'בצע הערכת עצמית מקוונת קצרה כדי לגלות את הרגישות שלך לצלילים ספציפיים! ענה על שאלות והקש להקלטות של צלילים שונים. המבחן מהיר, יעיל ומדויק ב-91%, ויעזור לך לחשוף את רמת המיזופוניה שלך.',
+                    navigationLink: '../exams/psycho-acoustic',
+                    imageAssetSrc: 'assets/images/exams/sound-waves.webp',
+                    studyPdfAssetSrc: 'assets/studies/psychoacoustic-test.pdf'
+                  }),
+                  selfReport: new Exam({
+                    name: 'מבחן דיווח עצמי',
+                    note: 'בחרו במבחן זה אם אינכם יכולים להתמקד ברעשים',
+                    accessoriesRequirements: {
+                      headphones: false,
+                      camera: false
+                    },
+                    description: 'בצע מבחן עצמי מהיר ומדויק לזיהוי תסמיני מיסופוניה! המבחן, שפותח על ידי אנשי מקצוע, מתאם בצורה חזקה עם גורמים חשובים כמו כעס, ומחפש באופן יעיל מבוגרים עם מיסופוניה משמעותית מבחינה קלינית. הוא עוקף מבחנים אחרים בזיהוי מדויק של התסמינים.',
+                    navigationLink: '../exams/psycho-acoustic',
+                    imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
+                    studyPdfAssetSrc: 'assets/studies/psychoacoustic-test.pdf'
+                  }),
+                }
+              }
+            }
+          }
         },
         contact: {
           title: 'דף יצירת קשר',
@@ -211,7 +304,7 @@ export const langs: Lang[] = Object.keys(text);
 })
 export class LangService {
   currentLang: LangText = text[defaultLang];
-  lans = langs.map(key => ({key, value: text[key].name}));
+  lans = langs.map(key => ({ key, value: text[key].name }));
   lansByKey = {
     en: 'en',
     he: 'he'

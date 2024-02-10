@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { ExamSelectorComponent } from './exam-selector/exam-selector.component';
-import { TestsComponent } from './tests/tests.component';
+import { ExamsComponent } from './exams/exams.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: './exam-selector', pathMatch: 'full'},
+  {path: '', redirectTo: 'exam-selector', pathMatch: 'full'},
   {path: 'exam-selector', component: ExamSelectorComponent},
-  {path: 'tests', component: TestsComponent},
+  {path: 'exams', component: ExamsComponent},
 ];
 
 export default routes;

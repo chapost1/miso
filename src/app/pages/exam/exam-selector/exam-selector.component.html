@@ -1,4 +1,40 @@
 <div>
+    <div class="d-flex flex-row justify-content-between">
 
-    Yo
+        <mat-card class="exam-selector-card mx-2" *ngFor="let exam of getExams()">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <span *ngIf="exam.isAnyAccessoriesRequired">
+                        <span class="material-icons" *ngIf="exam.accessoriesRequirements.headphones">
+                            headset
+                        </span>
+                        <span class="material-icons" *ngIf="exam.accessoriesRequirements.camera">
+                            videocam
+                        </span>
+                    </span>
+                    <span [hidden]="exam.isAnyAccessoriesRequired">
+                        <span class="material-icons">
+                            check
+                        </span>
+                    </span>
+                </div>
+                <mat-card-title>{{exam.name}}</mat-card-title>
+                <mat-card-subtitle>{{exam.note}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image class="exam-selector-option-image py-1" src="{{exam.imageAssetSrc}}">
+            <mat-card-content>
+                <p>
+                    {{exam.description}}
+                </p>
+
+            </mat-card-content>
+            <mat-card-actions>
+                <button [routerLink]="[exam.navigationLink]"
+                    mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.selectButton.label}}</button>
+                <button
+                    mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.displayStudyButton.label}}</button>
+            </mat-card-actions>
+        </mat-card>
+
+    </div>
 </div>
