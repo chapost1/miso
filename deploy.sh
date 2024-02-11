@@ -1,1 +1,1 @@
-ng deploy --base-href=miso
+ng deploy --base-href=/miso/

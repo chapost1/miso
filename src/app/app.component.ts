@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
 import { LangService } from './services/lang.service';
 import { RouterOutlet, Router, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -24,14 +25,21 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     public langService: LangService,
-    private router: Router
+    private router: Router,
+    private locationStrategy: LocationStrategy
   ) {
     this.subscription = new Subscription();
     // get first segment of url and set language accordingly
     this.subscription.add(router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        const url = event.url;
-        const lang = url.split('/')[1];
+        let url = event.url;
+        const href = this.locationStrategy.getBaseHref();
+        if (href && url.startsWith(href)) {
+          url = url.slice(href.length);
+        } else if (url.startsWith('/')) {
+          url = url.slice(1);
+        }
+        const lang = url.split('/')[0];
         this.langService.setLang(lang);
       }
     }));

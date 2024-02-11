@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
 import Exam from '../core/exam';
 
 interface LangText {
@@ -270,9 +271,9 @@ const text: LangTextObject = {
                       camera: false
                     },
                     description: 'בצע מבחן עצמי מהיר ומדויק לזיהוי תסמיני מיסופוניה! המבחן, שפותח על ידי אנשי מקצוע, מתאם בצורה חזקה עם גורמים חשובים כמו כעס, ומחפש באופן יעיל מבוגרים עם מיסופוניה משמעותית מבחינה קלינית. הוא עוקף מבחנים אחרים בזיהוי מדויק של התסמינים.',
-                    navigationLink: '../exams/psycho-acoustic',
+                    navigationLink: '../exams/self-report',
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
-                    studyPdfAssetSrc: '/assets/studies/psychoacoustic-test.pdf'
+                    studyPdfAssetSrc: '/assets/studies/duke-self-report.pdf'
                   }),
                 }
               }
@@ -337,7 +338,7 @@ export class LangService {
     he: 'he'
   };
 
-  constructor() { }
+  constructor(private locationStrategy: LocationStrategy) { }
 
   setLang(lang: Lang): void {
     if (lang in text) {
@@ -352,13 +353,16 @@ export class LangService {
   }
 
   setUrlPathFirstSegment(lang: Lang): void {
-    const url = window.location.pathname;
-    const segments = url.split('/');
-    const currentLang = segments[1];
+    const currentUrl = window.location.pathname;
+    const href = this.locationStrategy.getBaseHref() || '';
+    const path = currentUrl.slice(href.length);
+    const segments = path.split('/');
+    const currentLang = segments[0];
     if (currentLang === lang) {
       return;
     }
-    const newUrl = `/${lang}/${segments.slice(2).join('/')}`;
+    const newUrlSegments = [lang, ...segments.slice(1)];
+    const newUrl = `${href}${newUrlSegments.join('/')}`;
     window.history.pushState({}, '', newUrl);
   }
 }

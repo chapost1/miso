@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
+import { LocationStrategy } from '@angular/common';
+
 import { LangService } from '../../../services/lang.service';
 
 import { MatCardModule } from '@angular/material/card';
@@ -104,9 +106,11 @@ export class ExamSelectorComponent {
 class ExamSelectorExamStudyDialog {
   constructor(
     public dialog: MatDialog,
+    private locationStrategy: LocationStrategy,
     @Inject(MAT_DIALOG_DATA) public data: {
       exam: Exam,
-      getExamSelectorLangData: () => ExamSelectorLangData},
+      getExamSelectorLangData: () => ExamSelectorLangData
+    },
   ) { }
 
   public get closeDialogButtonLabel(): string {
@@ -118,6 +122,8 @@ class ExamSelectorExamStudyDialog {
   }
 
   public get pdfSrc(): string {
-    return this.data.exam.studyPdfAssetSrc;
+    const href = this.locationStrategy.getBaseHref();
+    // replace double slashes with single slashes
+    return (href + this.data.exam.studyPdfAssetSrc).replace(/\/\//g, '/');
   }
 }
