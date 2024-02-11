@@ -1,38 +1,40 @@
 <div>
-    <div class="d-flex flex-row justify-content-between">
+    <div class="exam-selector-container row">
 
-        <mat-card class="exam-selector-card mx-2" *ngFor="let exam of getExams()">
+        <mat-card class="col-sm-5 exam-selector-card m-2" *ngFor="let exam of getExams()">
             <mat-card-header>
                 <div mat-card-avatar>
-                    <span *ngIf="exam.isAnyAccessoriesRequired">
-                        <span class="material-icons" *ngIf="exam.accessoriesRequirements.headphones">
+                    <span *ngIf="exam.isAnyAccessoriesRequired" class="text-primary">
+                        <span class="material-icons" *ngIf="exam.accessoriesRequirements.headphones"
+                            [matTooltip]="langService.currentLang.app.pages.exam.children.examSelector.headphonesTooltip">
                             headset
                         </span>
-                        <span class="material-icons" *ngIf="exam.accessoriesRequirements.camera">
+                        <span class="material-icons" *ngIf="exam.accessoriesRequirements.camera"
+                            [matTooltip]="langService.currentLang.app.pages.exam.children.examSelector.cameraTooltip">
                             videocam
                         </span>
                     </span>
-                    <span [hidden]="exam.isAnyAccessoriesRequired">
-                        <span class="material-icons">
-                            check
+                    <span [hidden]="exam.isAnyAccessoriesRequired" class="text-muted">
+                        <span class="material-icons"
+                            [matTooltip]="langService.currentLang.app.pages.exam.children.examSelector.noAccessoriesTooltip">
+                            extension_off
                         </span>
                     </span>
                 </div>
                 <mat-card-title>{{exam.name}}</mat-card-title>
-                <mat-card-subtitle>{{exam.note}}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image class="exam-selector-option-image py-1" src="{{exam.imageAssetSrc}}">
-            <mat-card-content>  
+            <mat-card-content>
                 <p>
                     {{exam.description}}
                 </p>
 
+                <mat-card-subtitle>{{exam.note}}</mat-card-subtitle>
             </mat-card-content>
             <mat-card-actions>
                 <button [routerLink]="[exam.navigationLink]"
                     mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.selectButton.label}}</button>
-                <button
-                    (click)="onDisplayExamStudy(exam)"
+                <button (click)="onDisplayExamStudy(exam)"
                     mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.displayStudyButton.label}}</button>
             </mat-card-actions>
         </mat-card>

@@ -39,6 +39,9 @@ interface LangText {
             closeDialogButton: {
               label: string;
             };
+            headphonesTooltip: string;
+            cameraTooltip: string;
+            noAccessoriesTooltip: string;
             state: {
               exams: {
                 psychoacoustic: Exam;
@@ -131,6 +134,9 @@ const text: LangTextObject = {
               closeDialogButton: {
                 label: 'Close'
               },
+              headphonesTooltip: 'Headphones required',
+              cameraTooltip: 'Camera required',
+              noAccessoriesTooltip: 'No accessories required',
               state: {
                 exams: {
                   psychoacoustic: new Exam({
@@ -239,6 +245,9 @@ const text: LangTextObject = {
               closeDialogButton: {
                 label: 'סגור'
               },
+              headphonesTooltip: 'נדרשות אזניות',
+              cameraTooltip: 'נדרש מצלמה',
+              noAccessoriesTooltip: 'אין צורך באביזרים',
               state: {
                 exams: {
                   psychoacoustic: new Exam({

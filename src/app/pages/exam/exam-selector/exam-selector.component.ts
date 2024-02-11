@@ -13,6 +13,7 @@ import {
   MatDialog,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 interface ExamSelectorLangData {
   selectButton: {
@@ -42,7 +43,8 @@ interface ExamSelectorLangData {
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    RouterLink
+    RouterLink,
+    MatTooltipModule
   ],
   templateUrl: './exam-selector.component.html',
   styleUrl: './exam-selector.component.scss'

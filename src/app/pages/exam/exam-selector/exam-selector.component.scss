@@ -1,7 +1,11 @@
-.exam-selector-card {
-    max-width: 400px;
-}
+.exam-selector-container {
+    max-width: 100%;
 
-.exam-selector-option-image {
-    height: 220px;
+    .exam-selector-card {
+        max-width: 400px;
+    }
+
+    .exam-selector-option-image {
+        height: 220px;
+    }
 }
