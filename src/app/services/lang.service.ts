@@ -24,10 +24,10 @@ interface LangText {
         subtitle: string;
       };
       exam: {
-        title: string;
-        subtitle: string;
         children: {
           examSelector: {
+            title: string;
+            subtitle: string;
             selectButton: {
               label: string;
             };
@@ -49,6 +49,42 @@ interface LangText {
                 selfReport: Exam;
               }
             }
+          },
+          exams: {
+            psychoacoustic: {
+              title: string;
+              subtitle: string;
+              steps: {
+                userAgreement: {
+                  title: string;
+                  subtitle: string;
+                  content: {
+                    ul: string[];
+                  },
+                  form: {
+                    controls: {
+                      age: {
+                        label: string;
+                        placeholder: string;
+                        errorMessage: string;
+                      };
+                      gender: {
+                        label: string;
+                        placeholder: string;
+                        options: {
+                          value: number;
+                          label: string;
+                        }[];
+                        errorMessage: string;
+                      };
+                      isConfirmed: {
+                        label: string;
+                      };
+                    };
+                  };
+                };
+              }
+            };
           }
         };
       };
@@ -119,10 +155,10 @@ const text: LangTextObject = {
           subtitle: 'A new way to test your misophonia'
         },
         exam: {
-          title: 'MisoPhonia Exam',
-          subtitle: 'Please select your preferred way to test your misophonia',
           children: {
             examSelector: {
+              title: 'MisoPhonia Exam',
+              subtitle: 'Please select your preferred way to test your misophonia',
               selectButton: {
                 label: 'Select'
               },
@@ -164,6 +200,48 @@ const text: LangTextObject = {
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
                     studyPdfAssetSrc: '/assets/studies/duke-self-report.pdf'
                   })
+                }
+              }
+            },
+            exams: {
+              psychoacoustic: {
+                title: 'Psychoacoustic Test',
+                subtitle: '',
+                steps: {
+                  userAgreement: {
+                    title: 'User Agreement',
+                    subtitle: 'Disclaimer:',
+                    content: {
+                      ul: [
+                        'This test is not a substitute for professional medical advice. The results provided should not be solely relied upon for diagnosis or treatment decisions. Always consult with a qualified healthcare professional for any health concerns you may have. This test serves as a potential aid in discussion with your doctor and should not be used as a final assessment.',
+                        'Anonymity for Research: Your test results will be stored anonymously for the purposes of improving the test and conducting research. Your personal information will never be associated with your test results.',
+                        'Limited Liability: The test is based on a reliable study, but the accuracy and effectiveness cannot be guaranteed. We are not responsible for any decisions or actions taken based on the test results. It is your responsibility to interpret the results and discuss them with your healthcare provider.',
+                        'Audio Sensitivity: This test includes audio sounds. If you have misophonia (a sensitivity to certain sounds), you acknowledge the potential for discomfort and agree to use the test at your own risk. We are not responsible for any adverse reactions or effects stemming from audio sensitivity.'
+                      ]
+                    },
+                    form: {
+                      controls: {
+                        age: {
+                          label: 'Age',
+                          placeholder: 'Enter your age',
+                          errorMessage: 'Invalid age'
+                        },
+                        gender: {
+                          label: 'Gender',
+                          placeholder: 'Select gender',
+                          options: [
+                            { value: 0, label: 'Female' },
+                            { value: 1, label: 'Male' },
+                            { value: 2, label: 'Other' }
+                          ],
+                          errorMessage: 'Invalid gender'
+                        },
+                        isConfirmed: {
+                          label: 'I confirm that I have read and agree to the terms and conditions',
+                        },
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -230,10 +308,10 @@ const text: LangTextObject = {
           subtitle: 'דרך חדשה לבדוק את המיסופוניה שלך'
         },
         exam: {
-          title: 'מבחן מיסופוניה',
-          subtitle: 'אנא בחר את הדרך המועדפת עליך לבדוק את המיסופוניה שלך',
           children: {
             examSelector: {
+              title: 'מבחן מיסופוניה',
+              subtitle: 'אנא בחר את הדרך המועדפת עליך לבדוק את המיסופוניה שלך',
               selectButton: {
                 label: 'בחר'
               },
@@ -275,6 +353,48 @@ const text: LangTextObject = {
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
                     studyPdfAssetSrc: '/assets/studies/duke-self-report.pdf'
                   }),
+                }
+              }
+            },
+            exams: {
+              psychoacoustic: {
+                title: 'מבחן פסיכואקוסטי',
+                subtitle: '',
+                steps: {
+                  userAgreement: {
+                    title: 'הסכם משתמש',
+                    subtitle: 'כתב ויתור:',
+                    content: {
+                      ul: [
+                        'בדיקה זו אינה תחליף לייעוץ רפואי מקצועי. אין להסתמך על התוצאות המתקבלות בלבד לצורך אבחון או קבלת החלטות טיפוליות. יש להיוועץ תמיד עם איש מקצוע בתחום הבריאות מוסמך בכל בעיה בריאותית שיש לך. בדיקה זו משמשת כסיוע פוטנציאלי לדיון עם הרופא שלך ולא צריכה לשמש כהערכה סופית.',
+                        'אנונימיות למחקר: תוצאות הבדיקה שלך יאוחסנו באופן אנונימי לצורך שיפור הבדיקה וביצוע מחקר. המידע האישי שלך לעולם לא ישויך לתוצאות הבדיקה שלך.',
+                        'אחריות מוגבלת: הבדיקה מבוססת על מחקר אמין, אך דיוקה ויעילותה אינן יכולות להיות מובטחות. איננו אחראים לכל החלטה או פעולה שננקטו על סמך תוצאות הבדיקה. באחריותך לפרש את התוצאות ולדון בהן עם הרופא שלך.',
+                        'רגישות לשמע: בדיקה זו כוללת סאונדים. אם יש לך מיסופוניה (רגישות מסוימת לצלילים), אתה מכיר בפוטנציאל לאי נוחות ומסכים להשתמש בבדיקה על אחריותך בלבד. איננו אחראים לכל תגובות שליליות או השפעות הנובעות מרגישות שמיעתית.'
+                      ]
+                    },
+                    form: {
+                      controls: {
+                        age: {
+                          label: 'גיל',
+                          placeholder: 'הכנס את גילך',
+                          errorMessage: 'גיל לא תקין'
+                        },
+                        gender: {
+                          label: 'מין',
+                          placeholder: 'בחר מין',
+                          options: [
+                            { value: 0, label: 'נקבה' },
+                            { value: 1, label: 'זכר' },
+                            { value: 2, label: 'אחר' }
+                          ],
+                          errorMessage: 'מין לא תקין'
+                        },
+                        isConfirmed: {
+                          label: 'אני מאשר שקראתי ומסכים לתנאים'
+                        },
+                      }
+                    }
+                  }
                 }
               }
             }
