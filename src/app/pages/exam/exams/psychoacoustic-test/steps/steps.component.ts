@@ -11,6 +11,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-steps',
   standalone: true,
@@ -45,7 +46,9 @@ export class StepsComponent {
   });
 
   misoquestWithAudioForm = this._formBuilder.group({
-    misoquestWithAudio: ['', Validators.required]
+    isAdjusted: ['', Validators.required],
+    responsePerAudio: this._formBuilder.group({
+    }),
   });
 
   extraForm = this._formBuilder.group({

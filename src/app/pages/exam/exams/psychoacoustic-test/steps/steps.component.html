@@ -55,28 +55,13 @@
         </mat-step>
 
 
+        <mat-step [stepControl]="misoquestWithAudioForm" [completed]="stepper.next()">
+            <!--We need To allow first, to adjust sound and then to answer for each sound the answer!-->
 
-
-        <mat-step [stepControl]="selfReportForm" [completed]="stepper.next()">
-            היי
         </mat-step>
 
 
-        
-        
-        <mat-step [stepControl]="misoquestNoSoundForm">
-        
-        </mat-step>
-
-
-
-        <mat-step [stepControl]="misoquestWithAudioForm">
-            
-        </mat-step>
-
-
-
-        <mat-step [stepControl]="extraForm">
+        <mat-step [stepControl]="extraForm" [completed]="stepper.next()">
             
         </mat-step>
 
