@@ -1,6 +1,6 @@
-<div class="audio-controller {{langService.currentLang.dir}}">
-    <div class="d-flex">
-        <div class="d-flex align-items-center">
+<div class="audio-controller">
+    <div class="d-flex flex-column">
+        <div class="d-flex align-items-center audio-controller-slider {{langService.currentLang.dir}}">
             <mat-icon>{{langService.currentLang.dir == 'rtl' ? 'volume_up': 'volume_down'}}</mat-icon>
             <mat-slider [min]="0" [max]="1" [step]="0.1" (input)="onVolumeChangeHandler($event)">
                 <input matSliderThumb [value]="volume">
@@ -9,8 +9,8 @@
         </div>
 
         <!--Icon for play/pause-->
-        <div class="d-flex align-items-center">
-            <button mat-icon-button (click)="playPause()">
+        <div class="d-flex align-items-center mx-auto">
+            <button mat-fab color="primary" (click)="playPause()">
                 <mat-icon>{{isPlaying ? 'pause' : 'play_arrow'}}</mat-icon>
             </button>
         </div>

@@ -1,0 +1,9 @@
+.sound-rating.rtl {
+    transform: rotate(180deg);
+    .rating-icon {
+        transform: rotate(180deg);
+    }
+    .mdc-slider__input {
+        transform: rotate(180deg);
+    }
+}

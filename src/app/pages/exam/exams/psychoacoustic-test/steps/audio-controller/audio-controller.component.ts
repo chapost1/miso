@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -37,10 +37,12 @@ export class AudioControllerComponent implements OnChanges {
     if (changes['audioSrc']) {
       const audioSrc = changes['audioSrc'].currentValue;
       if (this.audio) {
-        this.audio.removeEventListener('ended', this.audioEndedListener);
+        this.pause();
+        this.audio.src = audioSrc;
+      } else {
+        this.audio = new Audio(audioSrc);
+        this.audio.addEventListener('ended', this.audioEndedListener);
       }
-      this.audio = new Audio(audioSrc);
-      this.audio.addEventListener('ended', this.audioEndedListener);
     }
     if (changes['volume'] && !changes['volume'].firstChange) {
       this.setVolume(this.volume, false);
@@ -73,6 +75,9 @@ export class AudioControllerComponent implements OnChanges {
   }
 
   public play(): void {
+    if (this.isPlaying) {
+      return;
+    }
     if (this.audio) {
       this.audio.play();
       this.isPlaying = true;
@@ -80,19 +85,14 @@ export class AudioControllerComponent implements OnChanges {
   }
 
   public pause(): void {
+    if (!this.isPlaying) {
+      return;
+    }
     if (this.audio) {
       this.audio.pause();
       this.isPlaying = false;
     }
   }
-
-  public stop(): void {
-    if (this.audio) {
-      this.pause();
-      this.audio.currentTime = 0;
-    }
-  }
-
 
   public setVolume(volume: number, emit: boolean): void {
     if (this.audio) {

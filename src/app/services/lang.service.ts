@@ -96,6 +96,12 @@ interface LangText {
                     nextButton: {
                       label: string;
                     };
+                    controllerLabel: {
+                      title: string;
+                    };
+                    ratingSlider: {
+                      title: string;
+                    };
                     sounds: {
                       adjustmentSound: {
                         id: string;
@@ -109,6 +115,9 @@ interface LangText {
                       }[];
                     };
                   }
+                };
+                finalResult: {
+                  title: string;
                 }
               }
             };
@@ -278,6 +287,12 @@ const text: LangTextObject = {
                       nextButton: {
                         label: 'Next'
                       },
+                      controllerLabel: {
+                        title: 'Controller'
+                      },
+                      ratingSlider: {
+                        title: 'Rate how pleasant the sound is'
+                      },
                       sounds: {
                         adjustmentSound: {
                           id: Sounds.ADDITIONAL.WHITE_NOISE,
@@ -297,12 +312,12 @@ const text: LangTextObject = {
                           },
                           {
                             id: Sounds.TRIGGERS.CHEWING_1,
-                            title: 'Chewing 1',
+                            title: 'Fast Phase Chewing',
                             audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_1]
                           },
                           {
                             id: Sounds.TRIGGERS.CHEWING_2,
-                            title: 'Chewing 2',
+                            title: 'Slow Phase Chewing',
                             audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_2]
                           },
                           {
@@ -368,66 +383,69 @@ const text: LangTextObject = {
                           {
                             id: Sounds.UNPLEASENT.CLAPPING,
                             title: 'Clapping',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.CLAPPING]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.CLAPPING]
                           },
                           {
                             id: Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE,
                             title: 'Distorted Guitar Dissonance',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]
                           },
                           {
                             id: Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD,
                             title: 'Fingernails on Chalkboard',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]
                           },
                           {
                             id: Sounds.UNPLEASENT.FORK_SCRATCH_PLATE,
                             title: 'Fork Scratch Plate',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]
                           },
                           {
                             id: Sounds.UNPLEASENT.KNIFE_HIT_GLASS,
                             title: 'Knife Hit Glass',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.KNIFE_HIT_GLASS]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.KNIFE_HIT_GLASS]
                           },
                           {
                             id: Sounds.UNPLEASENT.SCREAM,
                             title: 'Scream',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.SCREAM]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.SCREAM]
                           },
                           {
                             id: Sounds.PLEASENT.BIRDS,
                             title: 'Birds',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.BIRDS]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.BIRDS]
                           },
                           {
                             id: Sounds.PLEASENT.FOUNTAIN,
                             title: 'Fountain',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.FOUNTAIN]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.FOUNTAIN]
                           },
                           {
                             id: Sounds.PLEASENT.HARP,
                             title: 'Harp',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.HARP]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.HARP]
                           },
                           {
                             id: Sounds.PLEASENT.LAKE,
                             title: 'Lake',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAKE]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.LAKE]
                           },
                           {
                             id: Sounds.PLEASENT.LAUGTH,
                             title: 'Laugh',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAUGTH]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.LAUGTH]
                           },
                           {
                             id: Sounds.PLEASENT.UNDERWATER,
                             title: 'Underwater',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.UNDERWATER]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.UNDERWATER]
                           },
                         ]
                       }
                     }
+                  },
+                  finalResult: {
+                    title: 'Result'
                   }
                 }
               }
@@ -591,6 +609,12 @@ const text: LangTextObject = {
                       nextButton: {
                         label: 'הבא'
                       },
+                      controllerLabel: {
+                        title: 'בקר'
+                      },
+                      ratingSlider: {
+                        title: 'הערך את נעימות הצליל'
+                      },
                       sounds: {
                         adjustmentSound: {
                           id: Sounds.ADDITIONAL.WHITE_NOISE,
@@ -610,12 +634,12 @@ const text: LangTextObject = {
                           },
                           {
                             id: Sounds.TRIGGERS.CHEWING_1,
-                            title: 'לעיסה 1',
+                            title: 'לעיסה מהירה',
                             audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_1]
                           },
                           {
                             id: Sounds.TRIGGERS.CHEWING_2,
-                            title: 'לעיסה 2',
+                            title: 'לעיסה איטית',
                             audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_2]
                           },
                           {
@@ -741,6 +765,9 @@ const text: LangTextObject = {
                         ]
                       }
                     }
+                  },
+                  finalResult: {
+                    title: 'תוצאה'
                   }
                 }
               }

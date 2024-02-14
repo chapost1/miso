@@ -1,4 +1,5 @@
-.audio-controller.rtl  {
+.audio-controller-slider.rtl  {
+    transform: rotate(180deg);
     .mdc-slider__input {
         transform: rotate(180deg);
     }

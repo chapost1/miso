@@ -15,14 +15,14 @@ import { AudioControllerComponent } from './audio-controller/audio-controller.co
 
 import {
   Sounds,
-  SoundsToAssetPath
+  calcByGroupCDS
 } from '../../../../../core/misoquest/core';
+import { MatSliderModule } from '@angular/material/slider';
 
 interface Sound {
   id: string;
   title: string;
   audioSrc: string;
-  rating?: number;
 }
 
 @Component({
@@ -39,14 +39,13 @@ interface Sound {
     MatOptionModule,
     CommonModule,
     MatButtonModule,
-    AudioControllerComponent
+    AudioControllerComponent,
+    MatSliderModule
   ],
   templateUrl: './steps.component.html',
   styleUrl: './steps.component.scss'
 })
 export class StepsComponent {
-  // public SoundsToAssetPath = SoundsToAssetPath;
-  // public currentAudioPath = SoundsToAssetPath.ADDITIONAL[Sounds.ADDITIONAL.WHITE_NOISE];
   public currentAudioVolume = 1;
 
   private soundsOrderById: string[] | null = null;
@@ -58,7 +57,7 @@ export class StepsComponent {
   userAgreementForm = this._formBuilder.group({
     age: [18, Validators.required],
     gender: [0, Validators.required],
-    isConfirmed: ['', Validators.required]
+    isConfirmed: ['', [Validators.requiredTrue]],
   });
 
   misoquestWithAudioForm = this._formBuilder.group({
@@ -67,10 +66,6 @@ export class StepsComponent {
 
   extraForm = this._formBuilder.group({
     extra: ['', Validators.required]
-  });
-
-  finalResultForm = this._formBuilder.group({
-    finalResult: ['', Validators.required]
   });
 
   constructor(
@@ -100,27 +95,23 @@ export class StepsComponent {
     return this.soundsOrderById.map(id => rateableSounds.find(sound => sound.id === id)) as Sound[];
   }
 
-  private populateSoundsWithRating(rateableSounds: Sound[]): Sound[] {
-    const rated = [];
-    for (const sound of rateableSounds) {
-      rated.push({
-        ...sound,
-        rating: this.ratingBySoundId[sound.id] || 50
-      });
-    }
-    return rated;
+  private getRateableSounds(): Sound[] {
+    // in case lang has changed
+    this.defineRandomizedSoundsOrder();
+    //
+    const sounds = this.langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.sounds;
+    const sortedRateableSounds = this.sortRateableSoundsBasedOnOrder(sounds.rateableSounds);
+
+    return sortedRateableSounds;
   }
 
-  private getRateableSounds(): Sound[] {
-    const sounds = this.langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.sounds;
-    const rateableSounds = sounds.rateableSounds;
-    if (!this.soundsOrderById) {
-      this.randomizeSoundsOrder(rateableSounds);
+  private defineRandomizedSoundsOrder(): void {
+    if (this.soundsOrderById) {
+      // already defined
+      return;
     }
-    const sortedRateableSounds = this.sortRateableSoundsBasedOnOrder(rateableSounds);
-    const populateSoundsWithRating = this.populateSoundsWithRating(sortedRateableSounds);
-
-    return populateSoundsWithRating;
+    const sounds = this.langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.sounds;
+    this.randomizeSoundsOrder(sounds.rateableSounds);
   }
 
   public getCurrentSound(): Sound {
@@ -135,22 +126,54 @@ export class StepsComponent {
 
   public onNextAudioButton(stepper: MatStepper): void {
     if (!this.soundsOrderById) {
-      // make sure it will be randomixed
-      const sounds = this.langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.sounds;
-      const rateableSounds = sounds.rateableSounds;
-      if (!this.soundsOrderById) {
-        this.randomizeSoundsOrder(rateableSounds);
-      }
+      this.defineRandomizedSoundsOrder();
       this.currentSoundIndex += 1;
       return
     }
+    const currentSoundId = this.soundsOrderById[this.currentSoundIndex];
+    // make sure sound is rated
+    this.setSoundRating(currentSoundId, this.getSoundRating(currentSoundId));
+
     this.currentSoundIndex += 1;
     if (this.currentSoundIndex === this.soundsOrderById?.length) {
-      // end
-      stepper.next();
-      // make sure we can go back
-      this.currentSoundIndex -= 1;
+      // done
       this.misoquestWithAudioForm.controls.isAllRated.setValue('true');
+
+      requestAnimationFrame(() => {
+        stepper.next();
+        // make sure we can go back
+        this.currentSoundIndex -= 1;
+      });
     }
+  }
+
+  public setSoundRating(soundId: string, rating: number): void {
+    this.ratingBySoundId[soundId] = rating;
+  }
+
+  public getSoundRating(soundId: string): number {
+    if (!this.ratingBySoundId[soundId] && this.ratingBySoundId[soundId] !== 0) {
+      return 50;
+    }
+    return this.ratingBySoundId[soundId];
+  }
+
+  public onSoundRatingChangeHandler(soundId: string, event: Event): void {
+    const rating = Number((event.target as HTMLInputElement).value);
+    this.setSoundRating(soundId, rating);
+  }
+
+  public getFinalResult(): any {
+    const ratedSounds = [];
+    for (const soundId in this.ratingBySoundId) {
+      if (this.ratingBySoundId.hasOwnProperty(soundId)) {
+        ratedSounds.push({
+          name: soundId,
+          rating: this.ratingBySoundId[soundId]
+        });
+      }
+    }
+
+    return calcByGroupCDS(ratedSounds);
   }
 }

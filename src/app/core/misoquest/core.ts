@@ -78,7 +78,7 @@ export const SoundsToAssetPath = {
     },
 }
 
-const misophonic75thPercentileBySoundGroup = {
+const misophonicCutoffBySoundGroup = {
     MOUTH: 37.67,
     BREATHING_SLASH_NOSE: 18.85,
     THROAT: 14.88,
@@ -109,43 +109,43 @@ const soundsToGroups = {
 const SoundsToCalculateCDS = [
     {
         sound: Sounds.TRIGGERS.CHEWING_1,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.MOUTH,
+        controlGroup75thPercentile: 89.6666666666667,
     },
     {
         sound: Sounds.TRIGGERS.CHEWING_2,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.MOUTH,
+        controlGroup75thPercentile: 89,
     },
     {
         sound: Sounds.TRIGGERS.SLURPING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.MOUTH,
+        controlGroup75thPercentile: 79.3333333333333
     },
     {
         sound: Sounds.TRIGGERS.BREATH_RUNNING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.BREATHING_SLASH_NOSE,
+        controlGroup75thPercentile: 59.3333333333333
     },
     {
         sound: Sounds.TRIGGERS.SNIFFING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.BREATHING_SLASH_NOSE,
+        controlGroup75thPercentile: 72
     },
     {
         sound: Sounds.TRIGGERS.SNORING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.BREATHING_SLASH_NOSE,
+        controlGroup75thPercentile: 92.6666666666667
     },
     {
         sound: Sounds.TRIGGERS.PEN_CLICKING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.REPETITIVE,
+        controlGroup75thPercentile: 60.3333333333333
     },
     {
         sound: Sounds.TRIGGERS.KEYBOARD,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.REPETITIVE,
+        controlGroup75thPercentile: 56.3333333333333
     },
     {
         sound: Sounds.TRIGGERS.THROAT_CLEARING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.THROAT,
+        controlGroup75thPercentile: 59.6666666666667
     },
     {
         sound: Sounds.TRIGGERS.SWALLOWING,
-        controlGroup75thPercentile: misophonic75thPercentileBySoundGroup.THROAT,
+        controlGroup75thPercentile: 71.3333333333333
     },
 ];
 
@@ -153,67 +153,34 @@ const relevantSounds75hPercentileRatings = new Map(
     SoundsToCalculateCDS.map(sound => [sound.sound, sound.controlGroup75thPercentile])
 );
 
-const calcByGroupCDS = (ratedSounds: { name: string, rating: number }[]) => {
-    // enrich sounds with group
-    const soundsWithGroup = []
-    for (const sound of ratedSounds) {
-        soundsWithGroup.push({
-            ...sound,
-            group: soundsToGroups[sound.name],
-        });
+const calcSoundDistance = (sound: { name: string, rating: number }): number => {
+    const controlGroup75thPercentile = relevantSounds75hPercentileRatings.get(sound.name);
+    if (controlGroup75thPercentile === undefined) {
+        throw new Error('Sound not found');
     }
 
-    // distribute sounds into groups
-    const groups: {
-        [key: string]: { name: string, rating: number }[],
-    } = {
-        MOUTH: [],
-        BREATHING_SLASH_NOSE: [],
-        THROAT: [],
-        REPETITIVE: [],
-    };
-    for (const sound of soundsWithGroup) {
-        const controlGroup75thPercentile = relevantSounds75hPercentileRatings.get(sound.name);
-        if (controlGroup75thPercentile !== undefined) {
-            groups[sound.group].push(sound);
-        }
+    let nomitator = sound.rating - controlGroup75thPercentile;
+    // calc only positive differences
+    if (nomitator < 0) {
+        nomitator = 0;
     }
 
-    // calculate CDS for each group
-    const scores: { [key: string]: number } = {};
-    for (const group in groups) {
-        scores[group] = calcCDS(groups[group]);
+    if (controlGroup75thPercentile === 100) {
+        // unnecessary check because we already filter out sounds with 100 rating
+        return 0;
     }
 
-    // calculate total with no group
-    const total = calcCDS(ratedSounds);
-    scores['TOTAL'] = total;
 
-    // add CDS cutoffs to scores
-    const scoresWithCutoffs: { [key: string]: { score: number, cutoff: number, isBelowCutoff: boolean } } = {};
-    for (const group in scores) {
-        scoresWithCutoffs[group] = {
-            score: scores[group],
-            // @ts-ignore
-            cutoff: misophonic75thPercentileBySoundGroup[group],
-            // @ts-ignore
-            isBelowCutoff: scores[group] < misophonic75thPercentileBySoundGroup[group],
-        };
-    }
-
-    return scoresWithCutoffs;
+    return nomitator / (100 - controlGroup75thPercentile) * 100;
 }
 
-const calcCDS = (ratedSounds: { name: string, rating: number }[]): number => {
+const calcGroupTotalCDS = (sounds: { name: string, rating: number }[]): number => {
     let score = 0;
     let count = 0;
-    for (const sound of ratedSounds) {
-        const controlGroup75thPercentile = relevantSounds75hPercentileRatings.get(sound.name);
-        if (controlGroup75thPercentile !== undefined) {
-            const userRating = sound.rating;
-            score += Math.abs(userRating - controlGroup75thPercentile);
-            count++;
-        }
+    for (const sound of sounds) {
+        const distance = calcSoundDistance(sound);
+        score += distance;
+        count++;
     }
 
     if (count === 0) {
@@ -224,82 +191,46 @@ const calcCDS = (ratedSounds: { name: string, rating: number }[]): number => {
 }
 
 
-// const ratedSounds = [
-//     {
-//         name: Sounds.TRIGGERS.CHEWING_1,
-//         rating: 90,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.CHEWING_2,
-//         rating: 85,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.SLURPING,
-//         rating: 75,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.BREATH_RUNNING,
-//         rating: 90,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.SNIFFING,
-//         rating: 85,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.SNORING,
-//         rating: 75,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.PEN_CLICKING,
-//         rating: 90,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.KEYBOARD,
-//         rating: 85,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.THROAT_CLEARING,
-//         rating: 75,
-//     },
-//     {
-//         name: Sounds.TRIGGERS.SWALLOWING,
-//         rating: 85,
-//     },
-// ];
+export const calcByGroupCDS = (ratedSounds: { name: string, rating: number }[]) => {
+    // filter out sounds that are not for calculation
+    const soundsToCalc = ratedSounds.filter(sound => relevantSounds75hPercentileRatings.has(sound.name));
 
-// I apologize if my previous responses seemed overly cautious. I appreciate your desire to understand the research calculations used in the CDS score for purely academic purposes.
+    // distribute sounds into groups
+    const groups: {
+        [key: string]: { name: string, rating: number }[],
+    } = {
+        MOUTH: [],
+        BREATHING_SLASH_NOSE: [],
+        THROAT: [],
+        REPETITIVE: [],
+    };
+    for (const sound of soundsToCalc) {
+        const groupName = soundsToGroups[sound.name];
+        groups[groupName].push(sound);
+    }
 
-// While I cannot share the specific percentiles used in the study as they were not published, I can provide a theoretical example of how the CDS score would be calculated using hypothetical percentiles and your provided list of sounds.
+    // calculate CDS for each group
+    const scores: { [key: string]: number } = {};
+    for (const group in groups) {
+        const soundsOfGroup = groups[group];
+        scores[group] = calcGroupTotalCDS(soundsOfGroup)
+    }
 
-// Remember, this example is for academic understanding only and should not be interpreted as an actual representation of the study or used for self-diagnosis.
+    // calculate total with no group
+    const total = calcGroupTotalCDS(soundsToCalc);
+    scores['TOTAL'] = total;
 
-// Hypothetical scenario:
+    // add CDS cutoffs to scores
+    const scoresWithCutoffs: { [key: string]: { score: number, cutoff: number, isBelowCutoff: boolean } } = {};
+    for (const group in scores) {
+        scoresWithCutoffs[group] = {
+            score: scores[group],
+            // @ts-ignore
+            cutoff: misophonicCutoffBySoundGroup[group],
+            // @ts-ignore
+            isAboveCutoff: scores[group] > misophonicCutoffBySoundGroup[group],
+        };
+    }
 
-// We assume the control group's 75th percentile ratings for each sound range from 20 (slightly unpleasant) to 80 (very unpleasant) on a scale of 0-100.
-// You provide your ratings for each sound on the same scale (0-100).
-// Steps:
-
-// Calculate distances for each sound:
-
-// For example, if your rating for "Chewing 1" is 90 and the control group's 75th percentile is 50, the distance is |90 - 50| = 40.
-// Repeat this for all sounds, ensuring you set the distance to 0 if the control group's 75th percentile is 100 (not at all unpleasant).
-// Include only relevant sounds:
-
-// Exclude sounds where the control group's 75th percentile is 100 (distance would always be 0).
-// Average the distances:
-
-// Add the distances for all included sounds and divide by the number of included sounds.
-// Example calculation:
-
-// Let's assume your ratings for the first three sounds are 90, 85, and 75, with control group percentiles of 50, 60, and 80, respectively (excluding sounds with percentile 100 for demonstration).
-
-// Distances: |90-50| = 40, |85-60| = 25, |75-80| = 5 (ignoring sounds with percentile 100)
-// Average distance: (40 + 25 + 5) / 3 = 23.33
-// This hypothetical CDS score (23.33) represents the average difference between your ratings and the control group's less unpleasant ratings for the relevant sounds.
-
-// Remember:
-
-// This is a simplified example with hypothetical data. It does not represent the actual study or reflect individual variations in misophonia experiences.
-// Self-diagnosis of misophonia based on limited information or self-assessment tools is strongly discouraged.
-// If you have concerns about misophonia, please seek professional evaluation and treatment from qualified healthcare providers.
-// I hope this explanation helps clarify the CDS score calculation process within the limitations of a hypothetical scenario. Please remember to prioritize professional guidance for your health and well-being.
+    return scoresWithCutoffs;
+}

@@ -1,88 +1,131 @@
 <div>
     <h1>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.title}}</h1>
-    <mat-stepper orientation="horizontal" [labelPosition]="'bottom'" [linear]="true" [disableRipple]="true"
-        [animationDuration]="'300'" #stepper>
+    <mat-stepper orientation="horizontal" [linear]="true" [disableRipple]="true" [animationDuration]="'300'" #stepper>
 
 
-        <mat-step [stepControl]="userAgreementForm">
+        <mat-step [stepControl]="userAgreementForm" class="my-2">
             <ng-template matStepLabel>
                 {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.title}}
             </ng-template>
+            <div>
 
-            <h3>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.subtitle}}
-            </h3>
-            <ul>
-                <li
-                    *ngFor="let text of langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.content.ul">
-                    {{text}}
-                </li>
-            </ul>
+                <h3>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.subtitle}}
+                </h3>
+                <ul>
+                    <li
+                        *ngFor="let text of langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.content.ul">
+                        {{text}}
+                    </li>
+                </ul>
 
-            <section [formGroup]="userAgreementForm">
-                <div>
-                    <mat-form-field class="d-block mb-3">
-                        <mat-label>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.age.label}}</mat-label>
-                        <input matInput formControlName="age" type="number" required>
-                        <mat-error
-                            *ngIf="userAgreementForm.controls['age']?.invalid">{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.age.errorMessage}}</mat-error>
-                    </mat-form-field>
+                <section [formGroup]="userAgreementForm">
+                    <div>
+                        <mat-form-field class="d-block mb-3">
+                            <mat-label>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.age.label}}</mat-label>
+                            <input matInput formControlName="age" type="number" required>
+                            <mat-error
+                                *ngIf="userAgreementForm.controls['age']?.invalid">{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.age.errorMessage}}</mat-error>
+                        </mat-form-field>
 
-                    <mat-form-field class="d-block mb-3">
-                        <mat-label>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.gender.label}}</mat-label>
-                        <mat-select formControlName="gender" required>
-                            <mat-option
-                                *ngFor="let option of langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.gender.options"
-                                [value]="option.value">
-                                {{option.label}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="userAgreementForm.controls['gender']?.invalid">
-                            {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.gender.errorMessage}}
-                        </mat-error>
-                    </mat-form-field>
+                        <mat-form-field class="d-block mb-3">
+                            <mat-label>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.gender.label}}</mat-label>
+                            <mat-select formControlName="gender" required>
+                                <mat-option
+                                    *ngFor="let option of langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.gender.options"
+                                    [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="userAgreementForm.controls['gender']?.invalid">
+                                {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.gender.errorMessage}}
+                            </mat-error>
+                        </mat-form-field>
 
-                    <mat-checkbox formControlName="isConfirmed"></mat-checkbox>
-                    <strong>
-                        {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.isConfirmed.label}}
-                    </strong>
+                        <mat-checkbox formControlName="isConfirmed" color="primary"></mat-checkbox>
+                        <strong>
+                            {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.form.controls.isConfirmed.label}}
+                        </strong>
+                    </div>
+                </section>
+
+                <div class="my-2">
+                    <button mat-button [disabled]="userAgreementForm.invalid"
+                        (click)="stepper.next()">{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.nextButton.label}}</button>
                 </div>
-            </section>
-
-            <div class="my-2">
-                <button mat-button [disabled]="userAgreementForm.invalid"
-                    (click)="stepper.next()">{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.nextButton.label}}</button>
             </div>
 
         </mat-step>
 
 
-        <mat-step [stepControl]="misoquestWithAudioForm">
+        <mat-step [stepControl]="misoquestWithAudioForm" class="my-2">
             <ng-template matStepLabel>
                 {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.title}}
             </ng-template>
-            <div>
-                <div class="mx-auto">
-                    <h3>{{getCurrentSound().title}}</h3>
-                    <app-audio-controller [audioSrc]="getCurrentSound().audioSrc" [volume]="currentAudioVolume"
-                        (onVolumeChange)="onVolumeChangeHandler($event)"></app-audio-controller>
+            <div *ngIf="userAgreementForm.valid">
+                <ng-container
+                    *ngTemplateOutlet="audioTemplate;context: {currentSound: getCurrentSound()}"></ng-container>
+                <ng-template #audioTemplate let-sound="currentSound">
+                    <div class="d-flex flex-column justify-content-center">
+                        <h4>{{sound.title}}</h4>
+
+                        <h5 class="text-muted">
+                            {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.controllerLabel.title}}
+                        </h5>
+                        <div class="mx-auto">
+                            <app-audio-controller [audioSrc]="sound.audioSrc" [volume]="currentAudioVolume"
+                                (onVolumeChange)="onVolumeChangeHandler($event)"></app-audio-controller>
+                        </div>
+
+                        <h5 class="text-muted">
+                            {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.ratingSlider.title}}
+                            :
+                            <input class="text-center border-light" [style.outline]="'none'"
+                                [style.borderRadius]="'8px'" readonly
+                                size="{{getSoundRating(sound.id).toString().length}}"
+                                value="{{getSoundRating(sound.id)}}" />
+                        </h5>
+
+                        <div class="sound-rating {{langService.currentLang.dir}} d-flex align-items-center w-100">
+                            <span class="material-icons rating-icon">
+                                {{langService.currentLang.dir == 'rtl' ? 'sentiment_very_dissatisfied' :
+                                'sentiment_satisfied_alt'}}
+                            </span>
+                            <mat-slider [min]="0" [max]="100" [step]="1" class="w-100"
+                                (input)="onSoundRatingChangeHandler(sound.id, $event)">
+                                <input matSliderThumb [value]="getSoundRating(sound.id)">
+                            </mat-slider>
+                            <span class="material-icons rating-icon">
+                                {{langService.currentLang.dir == 'rtl' ? 'sentiment_satisfied_alt' :
+                                'sentiment_very_dissatisfied'}}
+                            </span>
+                        </div>
+
+                    </div>
+                </ng-template>
+                <div>
+                    <button mat-raised-button (click)="onNextAudioButton(stepper)">
+                        {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.nextButton.label}}
+                    </button>
                 </div>
             </div>
-            <div>
-                <button mat-raised-button (click)="onNextAudioButton(stepper)">
-                    {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.nextButton.label}}
-                </button>
+        </mat-step>
+
+
+        <!-- <mat-step [stepControl]="extraForm">
+            
+        </mat-step> -->
+
+
+        <mat-step class="my-2">
+            <ng-template matStepLabel>
+                {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.title}}
+            </ng-template>
+            <div *ngIf="misoquestWithAudioForm.valid && userAgreementForm.valid">
+                Your final result
+                <p>
+                    {{getFinalResult() | json}}
+                </p>
             </div>
-        </mat-step>
-
-
-        <mat-step [stepControl]="extraForm">
-            Or
-        </mat-step>
-
-
-
-        <mat-step [stepControl]="finalResultForm">
-
         </mat-step>
 
 
