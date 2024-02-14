@@ -2,8 +2,8 @@ export const Sounds = {// 28 sounds total, answer pleasant (0) to unpleasant (10
     TRIGGERS: {
         BLOWING_NOSE: 'blowing_nose',
         BREATH_RUNNING: 'breath_running',
-        CHEWING_1: 'chewing_1',
-        CHEWING_2: 'chewing_2',
+        FAST_PHASE_CHEWING: 'fast_phase_chewing',
+        SLOW_PHASE_CHEWING: 'slow_phase_chewing',
         COUGH: 'cough',
         GARGLING: 'gargling',
         HARD_BREATHING: 'hard_breathing',
@@ -42,8 +42,8 @@ export const SoundsToAssetPath = {
     TRIGGERS: {
         [Sounds.TRIGGERS.BLOWING_NOSE]: 'assets/audio/triggers/blowing_nose.mp3',
         [Sounds.TRIGGERS.BREATH_RUNNING]: 'assets/audio/triggers/breath_running.wav',
-        [Sounds.TRIGGERS.CHEWING_1]: 'assets/audio/triggers/chewing_1.wav',
-        [Sounds.TRIGGERS.CHEWING_2]: 'assets/audio/triggers/chewing_2.wav',
+        [Sounds.TRIGGERS.FAST_PHASE_CHEWING]: 'assets/audio/triggers/chewing_1.wav',
+        [Sounds.TRIGGERS.SLOW_PHASE_CHEWING]: 'assets/audio/triggers/chewing_2.wav',
         [Sounds.TRIGGERS.COUGH]: 'assets/audio/triggers/cough.wav',
         [Sounds.TRIGGERS.GARGLING]: 'assets/audio/triggers/gargling.wav',
         [Sounds.TRIGGERS.HARD_BREATHING]: 'assets/audio/triggers/hard_breathing.wav',
@@ -80,39 +80,39 @@ export const SoundsToAssetPath = {
 
 const misophonicCutoffBySoundGroup = {
     MOUTH: 37.67,
-    BREATHING_SLASH_NOSE: 18.85,
+    'BREATHING/NOSE': 18.85,
     THROAT: 14.88,
     REPETITIVE: 8.78,
     TOTAL: 22.67,
 };
 
 const soundsToGroups = {
-    [Sounds.TRIGGERS.BLOWING_NOSE]: 'BREATHING_SLASH_NOSE',
-    [Sounds.TRIGGERS.BREATH_RUNNING]: 'BREATHING_SLASH_NOSE',
-    [Sounds.TRIGGERS.CHEWING_1]: 'MOUTH',
-    [Sounds.TRIGGERS.CHEWING_2]: 'MOUTH',
-    [Sounds.TRIGGERS.COUGH]: 'BREATHING_SLASH_NOSE',
+    [Sounds.TRIGGERS.BLOWING_NOSE]: 'BREATHING/NOSE',
+    [Sounds.TRIGGERS.BREATH_RUNNING]: 'BREATHING/NOSE',
+    [Sounds.TRIGGERS.FAST_PHASE_CHEWING]: 'MOUTH',
+    [Sounds.TRIGGERS.SLOW_PHASE_CHEWING]: 'MOUTH',
+    [Sounds.TRIGGERS.COUGH]: 'BREATHING/NOSE',
     [Sounds.TRIGGERS.GARGLING]: 'MOUTH',
-    [Sounds.TRIGGERS.HARD_BREATHING]: 'BREATHING_SLASH_NOSE',
+    [Sounds.TRIGGERS.HARD_BREATHING]: 'BREATHING/NOSE',
     [Sounds.TRIGGERS.KEYBOARD]: 'REPETITIVE',
     [Sounds.TRIGGERS.PEN_CLICKING]: 'REPETITIVE',
     [Sounds.TRIGGERS.SLURPING]: 'MOUTH',
-    [Sounds.TRIGGERS.SNIFFING]: 'BREATHING_SLASH_NOSE',
-    [Sounds.TRIGGERS.SNORING]: 'BREATHING_SLASH_NOSE',
+    [Sounds.TRIGGERS.SNIFFING]: 'BREATHING/NOSE',
+    [Sounds.TRIGGERS.SNORING]: 'BREATHING/NOSE',
     [Sounds.TRIGGERS.SWALLOWING]: 'THROAT',
     [Sounds.TRIGGERS.THROAT_CLEARING]: 'THROAT',
     [Sounds.TRIGGERS.VOMIT]: 'MOUTH',
-    [Sounds.TRIGGERS.WHEEZING]: 'BREATHING_SLASH_NOSE',
+    [Sounds.TRIGGERS.WHEEZING]: 'BREATHING/NOSE',
 };
 
 // Other sounds 75th percentile was 100 (not at all unpleasant) which means they were not included in the calculation
 const SoundsToCalculateCDS = [
     {
-        sound: Sounds.TRIGGERS.CHEWING_1,
+        sound: Sounds.TRIGGERS.FAST_PHASE_CHEWING,
         controlGroup75thPercentile: 89.6666666666667,
     },
     {
-        sound: Sounds.TRIGGERS.CHEWING_2,
+        sound: Sounds.TRIGGERS.SLOW_PHASE_CHEWING,
         controlGroup75thPercentile: 89,
     },
     {
@@ -190,24 +190,34 @@ const calcGroupTotalCDS = (sounds: { name: string, rating: number }[]): number =
     return score / count;
 }
 
+const filterOutIrrelevantSounds = (sounds: { name: string, rating: number }[]): { name: string, rating: number }[] => {
+    return sounds.filter(sound => relevantSounds75hPercentileRatings.has(sound.name));
+}
 
-export const calcByGroupCDS = (ratedSounds: { name: string, rating: number }[]) => {
-    // filter out sounds that are not for calculation
-    const soundsToCalc = ratedSounds.filter(sound => relevantSounds75hPercentileRatings.has(sound.name));
-
+const distributeSoundsIntoGroups = (ratedSounds: { name: string, rating: number }[]) => {
     // distribute sounds into groups
     const groups: {
         [key: string]: { name: string, rating: number }[],
     } = {
         MOUTH: [],
-        BREATHING_SLASH_NOSE: [],
+        'BREATHING/NOSE': [],
         THROAT: [],
         REPETITIVE: [],
     };
-    for (const sound of soundsToCalc) {
+    for (const sound of ratedSounds) {
         const groupName = soundsToGroups[sound.name];
         groups[groupName].push(sound);
     }
+
+    return groups;
+}
+
+export const calcByGroupCDS = (ratedSounds: { name: string, rating: number }[]) => {
+    // filter out sounds that are not for calculation
+    const soundsToCalc = filterOutIrrelevantSounds(ratedSounds);
+
+    // distribute sounds into groups
+    const groups = distributeSoundsIntoGroups(soundsToCalc);
 
     // calculate CDS for each group
     const scores: { [key: string]: number } = {};
@@ -221,7 +231,7 @@ export const calcByGroupCDS = (ratedSounds: { name: string, rating: number }[]) 
     scores['TOTAL'] = total;
 
     // add CDS cutoffs to scores
-    const scoresWithCutoffs: { [key: string]: { score: number, cutoff: number, isBelowCutoff: boolean } } = {};
+    const scoresWithCutoffs: { [key: string]: { score: number, cutoff: number, isAboveCutoff: boolean } } = {};
     for (const group in scores) {
         scoresWithCutoffs[group] = {
             score: scores[group],
@@ -233,4 +243,39 @@ export const calcByGroupCDS = (ratedSounds: { name: string, rating: number }[]) 
     }
 
     return scoresWithCutoffs;
+}
+
+export const compareSoundsRatingsToControlGroupByGroup = (ratedSounds: { name: string, rating: number }[]): {
+    [key: string]: { soundName: string, soundRating: number, controlGroup75thPercentile: number }[],
+} => {
+    // filter out sounds that are not for calculation
+    const soundsToCalc = filterOutIrrelevantSounds(ratedSounds);
+
+    // distribute sounds into groups
+    const groups = distributeSoundsIntoGroups(soundsToCalc);
+
+    const comparedGroups: {
+        [key: string]: { soundName: string, soundRating: number, controlGroup75thPercentile: number }[],
+    } = {};
+
+    // now for each group compare each sound to the control group
+    for (const groupName in groups) {
+        const soundsOfGroup = groups[groupName];
+        const newSoundsOfGroup = soundsOfGroup.map(sound => {
+            const controlGroup75thPercentile = relevantSounds75hPercentileRatings.get(sound.name);
+            if (controlGroup75thPercentile === undefined) {
+                throw new Error('Sound is irrelevant');
+            }
+        
+            return {
+                soundName: sound.name,
+                soundRating: sound.rating,
+                controlGroup75thPercentile: controlGroup75thPercentile,
+            }
+        });
+
+        comparedGroups[groupName] = newSoundsOfGroup;
+    }
+
+    return comparedGroups;
 }

@@ -3,7 +3,7 @@
     <mat-stepper orientation="horizontal" [linear]="true" [disableRipple]="true" [animationDuration]="'300'" #stepper>
 
 
-        <mat-step [stepControl]="userAgreementForm" class="my-2">
+        <mat-step [stepControl]="userAgreementForm" [editable]="false" class="my-2">
             <ng-template matStepLabel>
                 {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.title}}
             </ng-template>
@@ -57,7 +57,7 @@
         </mat-step>
 
 
-        <mat-step [stepControl]="misoquestWithAudioForm" class="my-2">
+        <mat-step [stepControl]="misoquestWithAudioForm" [editable]="false" class="my-2">
             <ng-template matStepLabel>
                 {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.title}}
             </ng-template>
@@ -120,11 +120,45 @@
             <ng-template matStepLabel>
                 {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.title}}
             </ng-template>
-            <div *ngIf="misoquestWithAudioForm.valid && userAgreementForm.valid">
-                Your final result
-                <p>
-                    {{getFinalResult() | json}}
-                </p>
+            <div *ngIf="misoquestWithAudioForm.valid && userAgreementForm.valid && caulculatedResults" id="report">
+                <h4>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.title}}
+                </h4>
+                <div class="row my-1">
+                    <div class="chartingTemplate-container col-md-6 my-2"
+                        *ngFor="let chart of caulculatedResults.VISUAL_LINE_CHART_DATA">
+                        <canvas id="{{chart.id}}">{{ chartDataToChart(chart) }}</canvas>
+                    </div>
+                </div>
+
+                <div class="my-1">
+                    <h5>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.content.cdsByGroup.title}}
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li *ngFor="let cds of caulculatedResults.CDS_BY_GROUP | keyvalue">
+                            CDS Score for {{cds.key}}: <span
+                                class="{{cds.value.isAboveCutoff? 'text-danger':''}}">{{cds.value.score}}</span>
+                            ({{cds.value.cutoff}})
+
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="my-1">
+                    <h6 class="text-warning">
+                        <span class="material-icons">
+                            warning
+                        </span>
+                        {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.content.disclaimer}}
+                    </h6>
+                </div>
+
+                <div class="py-2">
+                    <button data-html2canvas-ignore="true" mat-raised-button color="primary"
+                        (click)="onDownloadReportButton()">
+                        {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.downloadReportButton.label}}
+                    </button>
+                </div>
+
             </div>
         </mat-step>
 

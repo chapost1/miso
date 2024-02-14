@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import Chart from 'chart.js/auto';
 import {
   LangService,
 } from '../../../../../services/lang.service';
@@ -12,10 +13,12 @@ import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AudioControllerComponent } from './audio-controller/audio-controller.component';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import {
-  Sounds,
-  calcByGroupCDS
+  calcByGroupCDS,
+  compareSoundsRatingsToControlGroupByGroup
 } from '../../../../../core/misoquest/core';
 import { MatSliderModule } from '@angular/material/slider';
 
@@ -53,6 +56,13 @@ export class StepsComponent {
   public ratingBySoundId: { [soundId: string]: number } = {};
 
   public currentSoundIndex = -1;
+
+  public caulculatedResults: {
+    CDS_BY_GROUP: { [key: string]: { score: number, cutoff: number, isAboveCutoff: boolean } }
+    VISUAL_LINE_CHART_DATA: { id: string, config: any }[];
+  } | null = null;
+
+  private isChartAlreadyRenderedById: { [id: string]: boolean } = {};
 
   userAgreementForm = this._formBuilder.group({
     age: [18, Validators.required],
@@ -139,6 +149,11 @@ export class StepsComponent {
       // done
       this.misoquestWithAudioForm.controls.isAllRated.setValue('true');
 
+      // calculate results
+      this.caulculatedResults = {
+        CDS_BY_GROUP: this.getFinalResult(),
+        VISUAL_LINE_CHART_DATA: this.getVisualLineChartData()
+      };
       requestAnimationFrame(() => {
         stepper.next();
         // make sure we can go back
@@ -163,7 +178,7 @@ export class StepsComponent {
     this.setSoundRating(soundId, rating);
   }
 
-  public getFinalResult(): any {
+  private getRatedSoundsList(): { name: string, rating: number }[] {
     const ratedSounds = [];
     for (const soundId in this.ratingBySoundId) {
       if (this.ratingBySoundId.hasOwnProperty(soundId)) {
@@ -173,7 +188,128 @@ export class StepsComponent {
         });
       }
     }
+    return ratedSounds;
+  }
 
-    return calcByGroupCDS(ratedSounds);
+  public getFinalResult(): any {
+    return calcByGroupCDS(
+      this.getRatedSoundsList()
+    );
+  }
+
+  public getVisualLineChartData(): { id: string, config: any }[] {
+    const rawDataPerGroup = compareSoundsRatingsToControlGroupByGroup(
+      this.getRatedSoundsList()
+    );
+
+    const charts = [];
+
+    const LABELS = {
+      YOUR_RATING: 'You',
+      PERCENTILE_75: 'Percentile.75'
+    }
+
+    for (const groupName in rawDataPerGroup) {
+      const rawData = rawDataPerGroup[groupName];
+      const soundNamesLabels = [];
+      const datasets = [];
+      const yourRatings = [];
+      const percentile75 = [];
+      for (const sound of rawData) {
+        soundNamesLabels.push(sound.soundName);
+        yourRatings.push(sound.soundRating);
+        percentile75.push(sound.controlGroup75thPercentile);
+      }
+
+      datasets.push({
+        label: LABELS.YOUR_RATING,
+        data: yourRatings,
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      });
+
+      datasets.push({
+        label: LABELS.PERCENTILE_75,
+        data: percentile75,
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      });
+
+      const data = {
+        labels: soundNamesLabels,
+        datasets: datasets
+      }
+
+      const chartConfig = {
+        type: 'line',
+        data: data,
+        options: {
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: 'Rating'
+              },
+              min: 0,
+              max: 100,
+              ticks: {
+                stepSize: 10
+              }
+            },
+            x: {
+              ticks: {
+                autoSkip: false,
+                maxRotation: 45,
+                minRotation: 45
+              }
+            }
+          },
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: groupName,
+            }
+          }
+        },
+      };
+
+      const chartData = {
+        id: groupName,
+        config: chartConfig
+      }
+
+      charts.push(chartData);
+    }
+
+    return charts;
+  }
+
+  public chartDataToChart(chartData: { id: string, config: any }): void {
+    if (this.isChartAlreadyRenderedById[chartData.id]) {
+      return;
+    }
+    // render chart
+    this.isChartAlreadyRenderedById[chartData.id] = true;
+    new Chart(chartData.id, chartData.config);
+  }
+
+  public onDownloadReportButton(): void {
+    const data = document.getElementById('report');
+    if (!data) {
+      return;
+    }
+    html2canvas(data).then(canvas => {
+      const imgWidth = 208;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jspdf('p', 'mm', 'a4');
+      pdf.addImage(contentDataURL, 'PNG', 2, 2, imgWidth, imgHeight);
+      pdf.save('report.pdf');
+    });
   }
 }

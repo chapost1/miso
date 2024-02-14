@@ -118,6 +118,15 @@ interface LangText {
                 };
                 finalResult: {
                   title: string;
+                  downloadReportButton: {
+                    label: string;
+                  };
+                  content: {
+                    disclaimer: string;
+                    cdsByGroup: {
+                      title: string;
+                    }
+                  }
                 }
               }
             };
@@ -311,14 +320,14 @@ const text: LangTextObject = {
                             audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.BREATH_RUNNING]
                           },
                           {
-                            id: Sounds.TRIGGERS.CHEWING_1,
+                            id: Sounds.TRIGGERS.FAST_PHASE_CHEWING,
                             title: 'Fast Phase Chewing',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_1]
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.FAST_PHASE_CHEWING]
                           },
                           {
-                            id: Sounds.TRIGGERS.CHEWING_2,
+                            id: Sounds.TRIGGERS.SLOW_PHASE_CHEWING,
                             title: 'Slow Phase Chewing',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_2]
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SLOW_PHASE_CHEWING]
                           },
                           {
                             id: Sounds.TRIGGERS.COUGH,
@@ -445,7 +454,16 @@ const text: LangTextObject = {
                     }
                   },
                   finalResult: {
-                    title: 'Result'
+                    title: 'Result',
+                    downloadReportButton: {
+                      label: 'Download Report'
+                    },
+                    content: {
+                      disclaimer: 'The results are not a substitute for professional medical advice. Always consult with a qualified healthcare professional for any health concerns you may have. This report can be used as a potential aid in discussion with your doctor and should not be used as a final assessment.',
+                      cdsByGroup: {
+                        title: 'Diagnosis'
+                      }
+                    }
                   }
                 }
               }
@@ -633,14 +651,14 @@ const text: LangTextObject = {
                             audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.BREATH_RUNNING]
                           },
                           {
-                            id: Sounds.TRIGGERS.CHEWING_1,
+                            id: Sounds.TRIGGERS.FAST_PHASE_CHEWING,
                             title: 'לעיסה מהירה',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_1]
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.FAST_PHASE_CHEWING]
                           },
                           {
-                            id: Sounds.TRIGGERS.CHEWING_2,
+                            id: Sounds.TRIGGERS.SLOW_PHASE_CHEWING,
                             title: 'לעיסה איטית',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_2]
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SLOW_PHASE_CHEWING]
                           },
                           {
                             id: Sounds.TRIGGERS.COUGH,
@@ -767,7 +785,16 @@ const text: LangTextObject = {
                     }
                   },
                   finalResult: {
-                    title: 'תוצאה'
+                    title: 'תוצאה',
+                    downloadReportButton: {
+                      label: 'הורד דוח'
+                    },
+                    content: {
+                      disclaimer: 'התוצאות אינן תחליף לייעוץ רפואי מקצועי. יש להיוועץ תמיד עם איש מקצוע בתחום הבריאות מוסמך בכל בעיה בריאותית שיש לך. דוח זה יכול לשמש כסיוע פוטנציאלי לדיון עם הרופא שלך ואין להשתמש בו כהערכה סופית.',
+                      cdsByGroup: {
+                        title: 'אבחון'
+                      }
+                    }
                   }
                 }
               }
