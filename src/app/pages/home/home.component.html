@@ -3,14 +3,13 @@
     <h2 class="h2">{{langService.currentLang.app.pages.home.subtitle}}</h2>
 
     <ul class="list-unstyled p-0">
-        <li class="pt-1"
-        *ngFor="let item of langService.currentLang.app.pages.home.content.descriptionItemsList">
+        <li class="pt-1" *ngFor="let item of langService.currentLang.app.pages.home.content.descriptionItemsList">
             {{item}}
         </li>
     </ul>
 
     <div class="my-1">
-        <button mat-raised-button color="primary" [routerLink]="['../exam']">
+        <button mat-raised-button color="primary" [routerLink]="['/'+langService.currentLang.code+'/exam']">
             {{langService.currentLang.app.pages.home.content.startExamButton.label}}
         </button>
     </div>
