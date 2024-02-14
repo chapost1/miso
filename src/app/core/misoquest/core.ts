@@ -1,4 +1,4 @@
-const Sounds = {// 28 sounds total, answer pleasant (0) to unpleasant (100) using a slider
+export const Sounds = {// 28 sounds total, answer pleasant (0) to unpleasant (100) using a slider
     TRIGGERS: {
         BLOWING_NOSE: 'blowing_nose',
         BREATH_RUNNING: 'breath_running',
@@ -32,7 +32,50 @@ const Sounds = {// 28 sounds total, answer pleasant (0) to unpleasant (100) usin
         LAKE: 'lake',
         LAUGTH: 'laugh',
         UNDERWATER: 'underwater',
-    }
+    },
+    ADDITIONAL: {
+        WHITE_NOISE: 'white_noise',
+    },
+}
+
+export const SoundsToAssetPath = {
+    TRIGGERS: {
+        [Sounds.TRIGGERS.BLOWING_NOSE]: 'assets/audio/triggers/blowing_nose.mp3',
+        [Sounds.TRIGGERS.BREATH_RUNNING]: 'assets/audio/triggers/breath_running.wav',
+        [Sounds.TRIGGERS.CHEWING_1]: 'assets/audio/triggers/chewing_1.wav',
+        [Sounds.TRIGGERS.CHEWING_2]: 'assets/audio/triggers/chewing_2.wav',
+        [Sounds.TRIGGERS.COUGH]: 'assets/audio/triggers/cough.wav',
+        [Sounds.TRIGGERS.GARGLING]: 'assets/audio/triggers/gargling.wav',
+        [Sounds.TRIGGERS.HARD_BREATHING]: 'assets/audio/triggers/hard_breathing.wav',
+        [Sounds.TRIGGERS.KEYBOARD]: 'assets/audio/triggers/keyboard.mp3',
+        [Sounds.TRIGGERS.PEN_CLICKING]: 'assets/audio/triggers/pen_clicking.wav',
+        [Sounds.TRIGGERS.SLURPING]: 'assets/audio/triggers/slurping.wav',
+        [Sounds.TRIGGERS.SNIFFING]: 'assets/audio/triggers/sniffing.wav',
+        [Sounds.TRIGGERS.SNORING]: 'assets/audio/triggers/snoring.wav',
+        [Sounds.TRIGGERS.SWALLOWING]: 'assets/audio/triggers/swallowing.wav',
+        [Sounds.TRIGGERS.THROAT_CLEARING]: 'assets/audio/triggers/throat_clearing.wav',
+        [Sounds.TRIGGERS.VOMIT]: 'assets/audio/triggers/vomit.wav',
+        [Sounds.TRIGGERS.WHEEZING]: 'assets/audio/triggers/wheezing.wav',
+    },
+    UNPLEASENT: {
+        [Sounds.UNPLEASENT.CLAPPING]: 'assets/audio/unpleasant/clapping.wav',
+        [Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]: 'assets/audio/unpleasant/distorted_guitar_dissonance.wav',
+        [Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]: 'assets/audio/unpleasant/fingernails_on_chalkboard.wav',
+        [Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]: 'assets/audio/unpleasant/fork_scratch_plate.wav',
+        [Sounds.UNPLEASENT.KNIFE_HIT_GLASS]: 'assets/audio/unpleasant/knife_hit_glass.wav',
+        [Sounds.UNPLEASENT.SCREAM]: 'assets/audio/unpleasant/scream.wav',
+    },
+    PLEASENT: {
+        [Sounds.PLEASENT.BIRDS]: 'assets/audio/pleasant/birds.wav',
+        [Sounds.PLEASENT.FOUNTAIN]: 'assets/audio/pleasant/fountain.wav',
+        [Sounds.PLEASENT.HARP]: 'assets/audio/pleasant/harp.wav',
+        [Sounds.PLEASENT.LAKE]: 'assets/audio/pleasant/lake.wav',
+        [Sounds.PLEASENT.LAUGTH]: 'assets/audio/pleasant/laugh.wav',
+        [Sounds.PLEASENT.UNDERWATER]: 'assets/audio/pleasant/underwater.wav',
+    },
+    ADDITIONAL: {
+        [Sounds.ADDITIONAL.WHITE_NOISE]: 'assets/audio/additional/white_noise.wav',
+    },
 }
 
 const misophonic75thPercentileBySoundGroup = {

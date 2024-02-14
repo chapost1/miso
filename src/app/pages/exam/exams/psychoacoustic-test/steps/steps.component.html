@@ -1,17 +1,13 @@
 <div>
     <h1>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.title}}</h1>
-    <mat-stepper 
-    orientation="horizontal" 
-    [labelPosition]="'bottom'"
-    [linear]="true" 
-    [disableRipple]="true" 
-    [animationDuration]="'300'" 
-    #stepper>
+    <mat-stepper orientation="horizontal" [labelPosition]="'bottom'" [linear]="true" [disableRipple]="true"
+        [animationDuration]="'300'" #stepper>
 
 
-        <mat-step [stepControl]="userAgreementForm" [completed]="stepper.next()">
-
-            <h1>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.title}}</h1>
+        <mat-step [stepControl]="userAgreementForm">
+            <ng-template matStepLabel>
+                {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.title}}
+            </ng-template>
 
             <h3>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.subtitle}}
             </h3>
@@ -52,23 +48,41 @@
                 </div>
             </section>
 
+            <div class="my-2">
+                <button mat-button [disabled]="userAgreementForm.invalid"
+                    (click)="stepper.next()">{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.nextButton.label}}</button>
+            </div>
+
         </mat-step>
 
 
-        <mat-step [stepControl]="misoquestWithAudioForm" [completed]="stepper.next()">
-            <!--We need To allow first, to adjust sound and then to answer for each sound the answer!-->
-
+        <mat-step [stepControl]="misoquestWithAudioForm">
+            <ng-template matStepLabel>
+                {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.title}}
+            </ng-template>
+            <div>
+                <div class="mx-auto">
+                    <h3>{{getCurrentSound().title}}</h3>
+                    <app-audio-controller [audioSrc]="getCurrentSound().audioSrc" [volume]="currentAudioVolume"
+                        (onVolumeChange)="onVolumeChangeHandler($event)"></app-audio-controller>
+                </div>
+            </div>
+            <div>
+                <button mat-raised-button (click)="onNextAudioButton(stepper)">
+                    {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.nextButton.label}}
+                </button>
+            </div>
         </mat-step>
 
 
-        <mat-step [stepControl]="extraForm" [completed]="stepper.next()">
-            
+        <mat-step [stepControl]="extraForm">
+            Or
         </mat-step>
 
 
 
         <mat-step [stepControl]="finalResultForm">
-            
+
         </mat-step>
 
 

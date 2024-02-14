@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LocationStrategy } from '@angular/common';
 import Exam from '../core/exam';
+import {
+  Sounds,
+  SoundsToAssetPath
+} from '../core/misoquest/core';
 
 interface LangText {
   code: string;
@@ -55,6 +59,9 @@ interface LangText {
               title: string;
               subtitle: string;
               steps: {
+                nextButton: {
+                  label: string;
+                };
                 userAgreement: {
                   title: string;
                   subtitle: string;
@@ -83,6 +90,26 @@ interface LangText {
                     };
                   };
                 };
+                misoquest: {
+                  title: string;
+                  content: {
+                    nextButton: {
+                      label: string;
+                    };
+                    sounds: {
+                      adjustmentSound: {
+                        id: string;
+                        title: string;
+                        audioSrc: string;
+                      },
+                      rateableSounds: {
+                        id: string;
+                        title: string;
+                        audioSrc: string;
+                      }[];
+                    };
+                  }
+                }
               }
             };
           }
@@ -208,6 +235,9 @@ const text: LangTextObject = {
                 title: 'Psychoacoustic Test',
                 subtitle: '',
                 steps: {
+                  nextButton: {
+                    label: 'Next'
+                  },
                   userAgreement: {
                     title: 'User Agreement',
                     subtitle: 'Disclaimer:',
@@ -239,6 +269,163 @@ const text: LangTextObject = {
                         isConfirmed: {
                           label: 'I confirm that I have read and agree to the terms and conditions',
                         },
+                      }
+                    }
+                  },
+                  misoquest: {
+                    title: 'MisoQuest',
+                    content: {
+                      nextButton: {
+                        label: 'Next'
+                      },
+                      sounds: {
+                        adjustmentSound: {
+                          id: Sounds.ADDITIONAL.WHITE_NOISE,
+                          title: 'Please Adjust the Volume to a Comfortable Level',
+                          audioSrc: SoundsToAssetPath.ADDITIONAL[Sounds.ADDITIONAL.WHITE_NOISE],
+                        },
+                        rateableSounds: [
+                          {
+                            id: Sounds.TRIGGERS.BLOWING_NOSE,
+                            title: 'Blowing Nose',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.BLOWING_NOSE]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.BREATH_RUNNING,
+                            title: 'Breath Running',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.BREATH_RUNNING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.CHEWING_1,
+                            title: 'Chewing 1',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_1]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.CHEWING_2,
+                            title: 'Chewing 2',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_2]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.COUGH,
+                            title: 'Cough',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.COUGH]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.GARGLING,
+                            title: 'Gargling',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.GARGLING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.HARD_BREATHING,
+                            title: 'Hard Breathing',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.HARD_BREATHING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.KEYBOARD,
+                            title: 'Keyboard',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.KEYBOARD]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.PEN_CLICKING,
+                            title: 'Pen Clicking',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.PEN_CLICKING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SLURPING,
+                            title: 'Slurping',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SLURPING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SNIFFING,
+                            title: 'Sniffing',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SNIFFING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SNORING,
+                            title: 'Snoring',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SNORING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SWALLOWING,
+                            title: 'Swallowing',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SWALLOWING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.THROAT_CLEARING,
+                            title: 'Throat Clearing',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.THROAT_CLEARING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.VOMIT,
+                            title: 'Vomit',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.VOMIT]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.WHEEZING,
+                            title: 'Wheezing',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.WHEEZING]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.CLAPPING,
+                            title: 'Clapping',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.CLAPPING]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE,
+                            title: 'Distorted Guitar Dissonance',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD,
+                            title: 'Fingernails on Chalkboard',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.FORK_SCRATCH_PLATE,
+                            title: 'Fork Scratch Plate',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.KNIFE_HIT_GLASS,
+                            title: 'Knife Hit Glass',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.KNIFE_HIT_GLASS]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.SCREAM,
+                            title: 'Scream',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.SCREAM]
+                          },
+                          {
+                            id: Sounds.PLEASENT.BIRDS,
+                            title: 'Birds',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.BIRDS]
+                          },
+                          {
+                            id: Sounds.PLEASENT.FOUNTAIN,
+                            title: 'Fountain',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.FOUNTAIN]
+                          },
+                          {
+                            id: Sounds.PLEASENT.HARP,
+                            title: 'Harp',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.HARP]
+                          },
+                          {
+                            id: Sounds.PLEASENT.LAKE,
+                            title: 'Lake',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAKE]
+                          },
+                          {
+                            id: Sounds.PLEASENT.LAUGTH,
+                            title: 'Laugh',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAUGTH]
+                          },
+                          {
+                            id: Sounds.PLEASENT.UNDERWATER,
+                            title: 'Underwater',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.UNDERWATER]
+                          },
+                        ]
                       }
                     }
                   }
@@ -361,6 +548,9 @@ const text: LangTextObject = {
                 title: 'מבחן פסיכואקוסטי',
                 subtitle: '',
                 steps: {
+                  nextButton: {
+                    label: 'הבא'
+                  },
                   userAgreement: {
                     title: 'הסכם משתמש',
                     subtitle: 'כתב ויתור:',
@@ -392,6 +582,163 @@ const text: LangTextObject = {
                         isConfirmed: {
                           label: 'אני מאשר שקראתי ומסכים לתנאים'
                         },
+                      }
+                    }
+                  },
+                  misoquest: {
+                    title: 'מיסוקווסט',
+                    content: {
+                      nextButton: {
+                        label: 'הבא'
+                      },
+                      sounds: {
+                        adjustmentSound: {
+                          id: Sounds.ADDITIONAL.WHITE_NOISE,
+                          title: 'אנא כוונן את העוצמה לרמת נוחות',
+                          audioSrc: SoundsToAssetPath.ADDITIONAL[Sounds.ADDITIONAL.WHITE_NOISE],
+                        },
+                        rateableSounds: [
+                          {
+                            id: Sounds.TRIGGERS.BLOWING_NOSE,
+                            title: 'נשיפת אף',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.BLOWING_NOSE]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.BREATH_RUNNING,
+                            title: 'נשימה תוך כדי ריצה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.BREATH_RUNNING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.CHEWING_1,
+                            title: 'לעיסה 1',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_1]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.CHEWING_2,
+                            title: 'לעיסה 2',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.CHEWING_2]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.COUGH,
+                            title: 'שיעול',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.COUGH]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.GARGLING,
+                            title: 'גרגור נוזלים',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.GARGLING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.HARD_BREATHING,
+                            title: 'נשימה כבדה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.HARD_BREATHING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.KEYBOARD,
+                            title: 'הקלדה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.KEYBOARD]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.PEN_CLICKING,
+                            title: 'לחיצת עט',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.PEN_CLICKING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SLURPING,
+                            title: 'שתיה רועשת',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SLURPING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SNIFFING,
+                            title: 'רחרוח',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SNIFFING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SNORING,
+                            title: 'נחירה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SNORING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.SWALLOWING,
+                            title: 'בליעה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.SWALLOWING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.THROAT_CLEARING,
+                            title: 'ניקוי גרון',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.THROAT_CLEARING]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.VOMIT,
+                            title: 'הקאה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.VOMIT]
+                          },
+                          {
+                            id: Sounds.TRIGGERS.WHEEZING,
+                            title: 'קושי בנשימה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.TRIGGERS.WHEEZING]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.CLAPPING,
+                            title: 'מחיאות כפיים',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.CLAPPING]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE,
+                            title: 'צליל גיטרה חשמלית מעוות',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD,
+                            title: 'ציפורניים על לוח גיר',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.FORK_SCRATCH_PLATE,
+                            title: 'מזלג חורץ צלחת',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.KNIFE_HIT_GLASS,
+                            title: 'סכין מכה בזכוכית',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.KNIFE_HIT_GLASS]
+                          },
+                          {
+                            id: Sounds.UNPLEASENT.SCREAM,
+                            title: 'צעקה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.SCREAM]
+                          },
+                          {
+                            id: Sounds.PLEASENT.BIRDS,
+                            title: 'ציפורים מצייצות',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.BIRDS]
+                          },
+                          {
+                            id: Sounds.PLEASENT.FOUNTAIN,
+                            title: 'מזרקה',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.FOUNTAIN]
+                          },
+                          {
+                            id: Sounds.PLEASENT.HARP,
+                            title: 'נבל',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.HARP]
+                          },
+                          {
+                            id: Sounds.PLEASENT.LAKE,
+                            title: 'אגם',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAKE]
+                          },
+                          {
+                            id: Sounds.PLEASENT.LAUGTH,
+                            title: 'צחוק',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAUGTH]
+                          },
+                          {
+                            id: Sounds.PLEASENT.UNDERWATER,
+                            title: 'רעש תת-ימי',
+                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.UNDERWATER]
+                          },
+                        ]
                       }
                     }
                   }
