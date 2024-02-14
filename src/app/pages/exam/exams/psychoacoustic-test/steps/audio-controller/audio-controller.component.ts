@@ -36,6 +36,7 @@ export class AudioControllerComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['audioSrc']) {
       const audioSrc = changes['audioSrc'].currentValue;
+      console.log('audioSrc', audioSrc);
       if (this.audio) {
         this.pause();
         this.audio.src = audioSrc;

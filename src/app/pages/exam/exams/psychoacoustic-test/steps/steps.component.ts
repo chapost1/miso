@@ -21,6 +21,7 @@ import {
   compareSoundsRatingsToControlGroupByGroup
 } from '../../../../../core/misoquest/core';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatIconModule } from '@angular/material/icon';
 
 interface Sound {
   id: string;
@@ -43,7 +44,8 @@ interface Sound {
     CommonModule,
     MatButtonModule,
     AudioControllerComponent,
-    MatSliderModule
+    MatSliderModule,
+    MatIconModule
   ],
   templateUrl: './steps.component.html',
   styleUrl: './steps.component.scss'
@@ -145,6 +147,9 @@ export class StepsComponent {
     this.setSoundRating(currentSoundId, this.getSoundRating(currentSoundId));
 
     this.currentSoundIndex += 1;
+    console.log('this.currentSoundIndex', this.currentSoundIndex);
+    const sound = this.getCurrentSound();
+    console.log('sound', sound);
     if (this.currentSoundIndex === this.soundsOrderById?.length) {
       // done
       this.misoquestWithAudioForm.controls.isAllRated.setValue('true');

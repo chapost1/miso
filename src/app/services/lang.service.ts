@@ -26,6 +26,12 @@ interface LangText {
       home: {
         title: string;
         subtitle: string;
+        content: {
+          descriptionItemsList: string[];
+          startExamButton: {
+            label: string;
+          };
+        }
       };
       exam: {
         children: {
@@ -197,7 +203,21 @@ const text: LangTextObject = {
         },
         home: {
           title: 'Welcome to MisoPhonia Exam',
-          subtitle: 'A new way to test your misophonia'
+          subtitle: 'A new way to test your misophonia',
+          content: {
+            descriptionItemsList: [
+              'Random sounds makes you feel angry?',
+              'Can\'t stand tapping or clicking sounds?',
+              'The sound of chewing make you feel irritable?',
+              '\n',
+              '\n',
+              '\n',
+              'you should take one of our accessible tests.'
+            ],
+            startExamButton: {
+              label: 'Get Started'
+            }
+          }
         },
         exam: {
           children: {
@@ -228,7 +248,7 @@ const text: LangTextObject = {
                       headphones: true,
                       camera: false
                     },
-                    description: 'Undertake a modern misophonia self-assessment. Rate online sounds, answer questions, and unveil your misophonia score—an efficient, 91% accurate revelation of your sensitivity to specific sounds.',
+                    description: 'Undertake a modern misophonia self-assessment. Rate online sounds, and unveil your misophonia score—an efficient, and explore sensitivity to specific sounds.',
                     navigationLink: '../exams/psycho-acoustic',
                     imageAssetSrc: 'assets/images/exams/sound-waves.webp',
                     studyPdfAssetSrc: '/assets/studies/psychoacoustic-test.pdf'
@@ -528,7 +548,21 @@ const text: LangTextObject = {
         },
         home: {
           title: 'ברוך הבא למבחן מיסופוניה',
-          subtitle: 'דרך חדשה לבדוק את המיסופוניה שלך'
+          subtitle: 'דרך חדשה לבדוק את המיסופוניה שלך',
+          content: {
+            descriptionItemsList: [
+              'צלילים אקראיים גורמים לך להרגיש כועס?',
+              'לא יכול לעמוד בצלילים של טפטוף או לחיצה?',
+              'הצליל של לעיסה מרגיז אותך?',
+              '\n',
+              '\n',
+              '\n',
+              'אתה צריך לקחת אחד מהמבחנים הנגישים שלנו.'
+            ],
+            startExamButton: {
+              label: 'התחל'
+            }
+          }
         },
         exam: {
           children: {
@@ -559,7 +593,7 @@ const text: LangTextObject = {
                       headphones: true,
                       camera: false
                     },
-                    description: 'בצע הערכת עצמית מקוונת קצרה כדי לגלות את הרגישות שלך לצלילים ספציפיים! ענה על שאלות והקש להקלטות של צלילים שונים. המבחן מהיר, יעיל ומדויק ב-91%, ויעזור לך לחשוף את רמת המיסופוניה שלך.',
+                    description: 'בצע הערכת עצמית מקוונת קצרה כדי לגלות את הרגישות שלך לצלילים ספציפיים! הקשב להקלטות של צלילים שונים והערך את הרגישות שלך. המבחן מהיר, יעיל ויעזור לך לחשוף את הרגישות המיסופונית שלך.',
                     navigationLink: '../exams/psycho-acoustic',
                     imageAssetSrc: 'assets/images/exams/sound-waves.webp',
                     studyPdfAssetSrc: '/assets/studies/psychoacoustic-test.pdf'
@@ -723,62 +757,62 @@ const text: LangTextObject = {
                           {
                             id: Sounds.UNPLEASENT.CLAPPING,
                             title: 'מחיאות כפיים',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.CLAPPING]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.CLAPPING]
                           },
                           {
                             id: Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE,
                             title: 'צליל גיטרה חשמלית מעוות',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.DISTORTED_GUITAR_DISSONANCE]
                           },
                           {
                             id: Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD,
                             title: 'ציפורניים על לוח גיר',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.FINGERNAILS_ON_CHALKBOARD]
                           },
                           {
                             id: Sounds.UNPLEASENT.FORK_SCRATCH_PLATE,
                             title: 'מזלג חורץ צלחת',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.FORK_SCRATCH_PLATE]
                           },
                           {
                             id: Sounds.UNPLEASENT.KNIFE_HIT_GLASS,
                             title: 'סכין מכה בזכוכית',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.KNIFE_HIT_GLASS]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.KNIFE_HIT_GLASS]
                           },
                           {
                             id: Sounds.UNPLEASENT.SCREAM,
                             title: 'צעקה',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.UNPLEASENT.SCREAM]
+                            audioSrc: SoundsToAssetPath.UNPLEASENT[Sounds.UNPLEASENT.SCREAM]
                           },
                           {
                             id: Sounds.PLEASENT.BIRDS,
                             title: 'ציפורים מצייצות',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.BIRDS]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.BIRDS]
                           },
                           {
                             id: Sounds.PLEASENT.FOUNTAIN,
                             title: 'מזרקה',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.FOUNTAIN]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.FOUNTAIN]
                           },
                           {
                             id: Sounds.PLEASENT.HARP,
                             title: 'נבל',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.HARP]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.HARP]
                           },
                           {
                             id: Sounds.PLEASENT.LAKE,
                             title: 'אגם',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAKE]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.LAKE]
                           },
                           {
                             id: Sounds.PLEASENT.LAUGTH,
                             title: 'צחוק',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.LAUGTH]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.LAUGTH]
                           },
                           {
                             id: Sounds.PLEASENT.UNDERWATER,
                             title: 'רעש תת-ימי',
-                            audioSrc: SoundsToAssetPath.TRIGGERS[Sounds.PLEASENT.UNDERWATER]
+                            audioSrc: SoundsToAssetPath.PLEASENT[Sounds.PLEASENT.UNDERWATER]
                           },
                         ]
                       }

@@ -1,4 +1,17 @@
-<div>
-    <h1>{{langService.currentLang.app.pages.home.title}}</h1>
-    <p>{{langService.currentLang.app.pages.home.subtitle}}</p>
+<div class="position-relative">
+    <h1 class="display-4">{{langService.currentLang.app.pages.home.title}}</h1>
+    <h2 class="h2">{{langService.currentLang.app.pages.home.subtitle}}</h2>
+
+    <ul class="list-unstyled p-0">
+        <li class="pt-1"
+        *ngFor="let item of langService.currentLang.app.pages.home.content.descriptionItemsList">
+            {{item}}
+        </li>
+    </ul>
+
+    <div class="my-1">
+        <button mat-raised-button color="primary" [routerLink]="['../exam']">
+            {{langService.currentLang.app.pages.home.content.startExamButton.label}}
+        </button>
+    </div>
 </div>

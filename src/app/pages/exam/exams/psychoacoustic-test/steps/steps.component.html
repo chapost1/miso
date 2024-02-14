@@ -9,8 +9,9 @@
             </ng-template>
             <div>
 
-                <h3>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.subtitle}}
-                </h3>
+                <h4 class="h4">
+                    {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.subtitle}}
+                </h4>
                 <ul>
                     <li
                         *ngFor="let text of langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.userAgreement.content.ul">
@@ -49,7 +50,7 @@
                 </section>
 
                 <div class="my-2">
-                    <button mat-button [disabled]="userAgreementForm.invalid"
+                    <button mat-raised-button color="primary" [disabled]="userAgreementForm.invalid"
                         (click)="stepper.next()">{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.nextButton.label}}</button>
                 </div>
             </div>
@@ -66,11 +67,12 @@
                     *ngTemplateOutlet="audioTemplate;context: {currentSound: getCurrentSound()}"></ng-container>
                 <ng-template #audioTemplate let-sound="currentSound">
                     <div class="d-flex flex-column justify-content-center">
-                        <h4>{{sound.title}}</h4>
-
-                        <h5 class="text-muted">
-                            {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.controllerLabel.title}}
-                        </h5>
+                        <h4 class="h4">
+                            <span *ngIf="currentSoundIndex > -1">
+                                <mat-icon [style.lineHeight]="'30px'" class="text-primary">audiotrack</mat-icon>
+                            </span>
+                            {{sound.title}}
+                        </h4>
                         <div class="mx-auto">
                             <app-audio-controller [audioSrc]="sound.audioSrc" [volume]="currentAudioVolume"
                                 (onVolumeChange)="onVolumeChangeHandler($event)"></app-audio-controller>
@@ -103,7 +105,7 @@
                     </div>
                 </ng-template>
                 <div>
-                    <button mat-raised-button (click)="onNextAudioButton(stepper)">
+                    <button mat-raised-button color="primary" (click)="onNextAudioButton(stepper)">
                         {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.nextButton.label}}
                     </button>
                 </div>
