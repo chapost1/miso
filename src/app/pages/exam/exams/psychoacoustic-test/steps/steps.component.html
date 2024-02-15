@@ -123,8 +123,14 @@
                 {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.title}}
             </ng-template>
             <div *ngIf="misoquestWithAudioForm.valid && userAgreementForm.valid && caulculatedResults" id="report">
-                <h4>{{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.title}}
+                <h4>
+                    {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.title}}
                 </h4>
+
+                <div class="my-1 alert alert-danger">
+                    {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.content.disclaimer}}
+                </div>
+
                 <div class="row my-1">
                     <div class="chartingTemplate-container col-md-6 my-2"
                         *ngFor="let chart of caulculatedResults.VISUAL_LINE_CHART_DATA">
@@ -145,13 +151,15 @@
                     </ul>
                 </div>
 
+                <div class="my-1 alert alert-secondary">
+                    {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.content.cdsCalculationNote}}
+                </div>
+
                 <div class="my-1">
-                    <h6 class="text-warning">
-                        <span class="material-icons">
-                            warning
-                        </span>
-                        {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.finalResult.content.disclaimer}}
-                    </h6>
+                    <div class="chartingTemplate-container">
+                        <canvas id="{{caulculatedResults.VISUAL_BAR_CHART_DATA.id}}">{{
+                            chartDataToChart(caulculatedResults.VISUAL_BAR_CHART_DATA) }}</canvas>
+                    </div>
                 </div>
 
                 <div class="py-2">

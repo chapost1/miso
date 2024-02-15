@@ -129,6 +129,7 @@ interface LangText {
                   };
                   content: {
                     disclaimer: string;
+                    cdsCalculationNote: string;
                     cdsByGroup: {
                       title: string;
                     }
@@ -480,6 +481,7 @@ const text: LangTextObject = {
                     },
                     content: {
                       disclaimer: 'The results are not a substitute for professional medical advice. Always consult with a qualified healthcare professional for any health concerns you may have. This report can be used as a potential aid in discussion with your doctor and should not be used as a final assessment.',
+                      cdsCalculationNote: 'Note! The CDS score is calculated based only on 10 sounds that graded statistically significant in the study.\nFurtheremore, For your information, your raw rating for all sounds is available in the report below.',
                       cdsByGroup: {
                         title: 'Diagnosis'
                       }
@@ -825,6 +827,7 @@ const text: LangTextObject = {
                     },
                     content: {
                       disclaimer: 'התוצאות אינן תחליף לייעוץ רפואי מקצועי. יש להיוועץ תמיד עם איש מקצוע בתחום הבריאות מוסמך בכל בעיה בריאותית שיש לך. דוח זה יכול לשמש כסיוע פוטנציאלי לדיון עם הרופא שלך ואין להשתמש בו כהערכה סופית.',
+                      cdsCalculationNote: 'שים לב! ציון ה-CDS נחשב על פי 10 צלילים שנבחנו כסטטיסטית חשובים במחקר.\nבנוסף, למידע שלך, הדירוג הגולמי שלך עבור כל הצלילים זמין בדוח למטה.',
                       cdsByGroup: {
                         title: 'אבחון'
                       }

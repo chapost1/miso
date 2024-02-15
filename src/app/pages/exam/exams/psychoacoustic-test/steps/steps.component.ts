@@ -29,6 +29,12 @@ interface Sound {
   audioSrc: string;
 }
 
+interface Results {
+  CDS_BY_GROUP: { [key: string]: { score: number, cutoff: number, isAboveCutoff: boolean } }
+  VISUAL_LINE_CHART_DATA: { id: string, config: any }[];
+  VISUAL_BAR_CHART_DATA: any;
+};
+
 @Component({
   selector: 'app-steps',
   standalone: true,
@@ -59,10 +65,7 @@ export class StepsComponent {
 
   public currentSoundIndex = -1;
 
-  public caulculatedResults: {
-    CDS_BY_GROUP: { [key: string]: { score: number, cutoff: number, isAboveCutoff: boolean } }
-    VISUAL_LINE_CHART_DATA: { id: string, config: any }[];
-  } | null = null;
+  public caulculatedResults: Results | null = null;
 
   private isChartAlreadyRenderedById: { [id: string]: boolean } = {};
 
@@ -155,10 +158,7 @@ export class StepsComponent {
       this.misoquestWithAudioForm.controls.isAllRated.setValue('true');
 
       // calculate results
-      this.caulculatedResults = {
-        CDS_BY_GROUP: this.getFinalResult(),
-        VISUAL_LINE_CHART_DATA: this.getVisualLineChartData()
-      };
+      this.caulculatedResults = this.calculateResults();
       requestAnimationFrame(() => {
         stepper.next();
         // make sure we can go back
@@ -196,13 +196,74 @@ export class StepsComponent {
     return ratedSounds;
   }
 
-  public getFinalResult(): any {
+  private calculateResults(): Results {
+    return {
+      CDS_BY_GROUP: this.getFinalResult(),
+      VISUAL_LINE_CHART_DATA: this.getVisualLineChartData(),
+      VISUAL_BAR_CHART_DATA: this.getRawVisualBarChartData()
+    };
+  }
+
+  private getRawVisualBarChartData(): any {
+    const labels = [];
+    const dataPoints = [];
+
+    for (const soundId in this.ratingBySoundId) {
+      if (this.ratingBySoundId.hasOwnProperty(soundId)) {
+        labels.push(soundId);
+        dataPoints.push(this.ratingBySoundId[soundId]);
+      }
+    }
+
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Your ratings (Unpleasantness)',
+          data: dataPoints,
+          borderColor: 'rgba(54, 162, 235, 1)',
+        }
+      ]
+    };
+
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        indexAxis: 'y',
+        scales: {
+          x: {
+            min: 0,
+            max: 100,
+          }
+        },
+        elements: {
+          bar: {
+            borderWidth: 2,
+          }
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+        },
+      },
+    };
+
+    return {
+      id: 'fullRawBarChart',
+      config: config
+    };
+  }
+
+  private getFinalResult(): any {
     return calcByGroupCDS(
       this.getRatedSoundsList()
     );
   }
 
-  public getVisualLineChartData(): { id: string, config: any }[] {
+  private getVisualLineChartData(): { id: string, config: any }[] {
     const rawDataPerGroup = compareSoundsRatingsToControlGroupByGroup(
       this.getRatedSoundsList()
     );
