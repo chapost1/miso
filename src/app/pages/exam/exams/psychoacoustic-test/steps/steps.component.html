@@ -70,8 +70,12 @@
                         <h4 class="h4">
                             <span *ngIf="currentSoundIndex > -1">
                                 <mat-icon [style.lineHeight]="'30px'" class="text-primary">audiotrack</mat-icon>
+
+                                {{currentSoundIndex + 1}} / {{soundsOrderById?.length || 0}} -
                             </span>
+
                             {{sound.title}}
+
                         </h4>
                         <div class="mx-auto">
                             <app-audio-controller [audioSrc]="sound.audioSrc" [volume]="currentAudioVolume"

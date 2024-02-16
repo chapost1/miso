@@ -59,7 +59,7 @@ interface Results {
 export class StepsComponent {
   public currentAudioVolume = 1;
 
-  private soundsOrderById: string[] | null = null;
+  public soundsOrderById: string[] | null = null;
 
   public ratingBySoundId: { [soundId: string]: number } = {};
   private isPlayedBySoundId: { [soundId: string]: boolean } = {};
