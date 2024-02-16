@@ -35,7 +35,10 @@
                 <mat-card-subtitle>{{exam.note}}</mat-card-subtitle>
             </mat-card-content>
             <mat-card-actions>
-                <button [routerLink]="[exam.navigationLink]"
+                <a *ngIf="exam.outsourceLink" [href]="exam.outsourceLink" target="_blank">
+                    <button mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.selectButton.label}}</button>
+                </a>
+                <button *ngIf="!exam.outsourceLink" [routerLink]="[exam.navigationLink]"
                     mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.selectButton.label}}</button>
                 <button (click)="onDisplayExamStudy(exam)"
                     mat-button>{{langService.currentLang.app.pages.exam.children.examSelector.displayStudyButton.label}}</button>

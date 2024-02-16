@@ -263,6 +263,7 @@ const text: LangTextObject = {
                     },
                     description: 'A reliable self-assessment for misophonia symptoms, correlating strongly with key factors like anger/aggression. Outperforms other measures, efficiently identifying adults with clinically significant misophonia.',
                     navigationLink: '../exams/self-report',
+                    outsourceLink: 'https://docs.google.com/forms/d/e/1FAIpQLSdeXRdc2e4vk0nYrkJr58Xp5SF4a5VDyVI_TxaZ5eOG0Zg_nQ/viewform',
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
                     studyPdfAssetSrc: '/assets/studies/duke-self-report.pdf'
                   })
@@ -609,6 +610,7 @@ const text: LangTextObject = {
                     },
                     description: 'בצע מבחן עצמי מהיר ומדויק לזיהוי תסמיני מיסופוניה! המבחן, שפותח על ידי אנשי מקצוע, מתאם בצורה חזקה עם גורמים חשובים כמו כעס, ומחפש באופן יעיל מבוגרים עם מיסופוניה משמעותית מבחינה קלינית. הוא עוקף מבחנים אחרים בזיהוי מדויק של התסמינים.',
                     navigationLink: '../exams/self-report',
+                    outsourceLink: 'https://docs.google.com/forms/d/e/1FAIpQLSdeXRdc2e4vk0nYrkJr58Xp5SF4a5VDyVI_TxaZ5eOG0Zg_nQ/viewform',
                     imageAssetSrc: 'assets/images/exams/customer-satisfaction-survey.jpeg',
                     studyPdfAssetSrc: '/assets/studies/duke-self-report.pdf'
                   }),

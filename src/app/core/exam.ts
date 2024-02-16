@@ -9,6 +9,7 @@ interface props {
     accessoriesRequirements: ExamAccessoriesRequirements;
     description: string;
     navigationLink: string;
+    outsourceLink?: string;
     imageAssetSrc: string;
     studyPdfAssetSrc: string;
 }
@@ -19,6 +20,7 @@ class Exam {
     public accessoriesRequirements: ExamAccessoriesRequirements;
     public description: string;
     public navigationLink: string;
+    public outsourceLink?: string;
     public imageAssetSrc: string;
     public studyPdfAssetSrc: string;
     
@@ -28,6 +30,7 @@ class Exam {
         accessoriesRequirements,
         description,
         navigationLink,
+        outsourceLink,
         imageAssetSrc,
         studyPdfAssetSrc,
     }: props) {
@@ -36,6 +39,7 @@ class Exam {
         this.accessoriesRequirements = accessoriesRequirements;
         this.description = description;
         this.navigationLink = navigationLink;
+        this.outsourceLink = outsourceLink;
         this.imageAssetSrc = imageAssetSrc;
         this.studyPdfAssetSrc = studyPdfAssetSrc;
     }
