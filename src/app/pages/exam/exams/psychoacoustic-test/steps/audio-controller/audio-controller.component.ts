@@ -21,7 +21,12 @@ import { MatSliderModule } from '@angular/material/slider';
 export class AudioControllerComponent implements OnChanges {
   @Input() audioSrc: string = '';
   @Input() volume: number = 1;
+  @Input() isPreviousButtonDisabled: boolean = false;
+  @Input() isNextButtonDisabled: boolean = false;
   @Output() onVolumeChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onPlayStart: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onPrevious: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onNext: EventEmitter<void> = new EventEmitter<void>();
   public isPlaying: boolean = false;
   public audio: HTMLAudioElement | null = null;
 
@@ -67,10 +72,11 @@ export class AudioControllerComponent implements OnChanges {
     }
   }
 
-  public playPause(): void {
+  public onPlayPauseToggleHandler(): void {
     if (this.isPlaying) {
       this.pause();
     } else {
+      this.onPlayStart.emit();
       this.play();
     }
   }
@@ -107,6 +113,14 @@ export class AudioControllerComponent implements OnChanges {
   public onVolumeChangeHandler(event: Event): void {
     const volume = Number((event.target as HTMLInputElement).value);
     this.setVolume(volume, true);
+  }
+
+  public onPreviousHandler(): void {
+    this.onPrevious.emit();
+  }
+
+  public onNextHandler(): void {
+    this.onNext.emit();
   }
 
 }

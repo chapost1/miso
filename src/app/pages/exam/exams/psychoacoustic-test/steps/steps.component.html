@@ -75,40 +75,41 @@
                         </h4>
                         <div class="mx-auto">
                             <app-audio-controller [audioSrc]="sound.audioSrc" [volume]="currentAudioVolume"
-                                (onVolumeChange)="onVolumeChangeHandler($event)"></app-audio-controller>
+                                [isPreviousButtonDisabled]="currentSoundIndex == -1"
+                                [isNextButtonDisabled]="false && !isPlayed(sound.id)"
+                                (onPlayStart)="markSoundAsPlayed(sound.id)"
+                                (onVolumeChange)="onVolumeChangeHandler($event)" (onPrevious)="onPreviousAudioButton()"
+                                (onNext)="onNextAudioButton(stepper)"></app-audio-controller>
                         </div>
 
-                        <h5 class="text-muted">
-                            {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.ratingSlider.title}}
-                            :
-                            <input class="text-center border-light" [style.outline]="'none'"
-                                [style.borderRadius]="'8px'" readonly
-                                size="{{getSoundRating(sound.id).toString().length}}"
-                                value="{{getSoundRating(sound.id)}}" />
-                        </h5>
+                        <div *ngIf="currentSoundIndex > -1">
+                            <h5 class="text-muted">
+                                {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.ratingSlider.title}}
+                                :
+                                <input class="text-center border-light" [style.outline]="'none'"
+                                    [style.borderRadius]="'8px'" readonly
+                                    size="{{getSoundRating(sound.id).toString().length}}"
+                                    value="{{getSoundRating(sound.id)}}" />
+                            </h5>
 
-                        <div class="sound-rating {{langService.currentLang.dir}} d-flex align-items-center w-100">
-                            <span class="material-icons rating-icon">
-                                {{langService.currentLang.dir == 'rtl' ? 'sentiment_very_dissatisfied' :
-                                'sentiment_satisfied_alt'}}
-                            </span>
-                            <mat-slider [min]="0" [max]="100" [step]="1" class="w-100"
-                                (input)="onSoundRatingChangeHandler(sound.id, $event)">
-                                <input matSliderThumb [value]="getSoundRating(sound.id)">
-                            </mat-slider>
-                            <span class="material-icons rating-icon">
-                                {{langService.currentLang.dir == 'rtl' ? 'sentiment_satisfied_alt' :
-                                'sentiment_very_dissatisfied'}}
-                            </span>
+                            <div class="sound-rating {{langService.currentLang.dir}} d-flex align-items-center w-100">
+                                <span class="material-icons rating-icon">
+                                    {{langService.currentLang.dir == 'rtl' ? 'sentiment_very_dissatisfied' :
+                                    'sentiment_satisfied_alt'}}
+                                </span>
+                                <mat-slider [min]="0" [max]="100" [step]="1" class="w-100"
+                                    (input)="onSoundRatingChangeHandler(sound.id, $event)">
+                                    <input matSliderThumb [value]="getSoundRating(sound.id)">
+                                </mat-slider>
+                                <span class="material-icons rating-icon">
+                                    {{langService.currentLang.dir == 'rtl' ? 'sentiment_satisfied_alt' :
+                                    'sentiment_very_dissatisfied'}}
+                                </span>
+                            </div>
                         </div>
 
                     </div>
                 </ng-template>
-                <div>
-                    <button mat-raised-button color="primary" (click)="onNextAudioButton(stepper)">
-                        {{langService.currentLang.app.pages.exam.children.exams.psychoacoustic.steps.misoquest.content.nextButton.label}}
-                    </button>
-                </div>
             </div>
         </mat-step>
 

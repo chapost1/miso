@@ -62,6 +62,7 @@ export class StepsComponent {
   private soundsOrderById: string[] | null = null;
 
   public ratingBySoundId: { [soundId: string]: number } = {};
+  private isPlayedBySoundId: { [soundId: string]: boolean } = {};
 
   public currentSoundIndex = -1;
 
@@ -139,6 +140,14 @@ export class StepsComponent {
     return ratableSounds[this.currentSoundIndex];
   }
 
+  public markSoundAsPlayed(soundId: string): void {
+    this.isPlayedBySoundId[soundId] = true;
+  }
+
+  public isPlayed(soundId: string): boolean {
+    return this.isPlayedBySoundId[soundId] || false;
+  }
+
   public onNextAudioButton(stepper: MatStepper): void {
     if (!this.soundsOrderById) {
       this.defineRandomizedSoundsOrder();
@@ -148,12 +157,8 @@ export class StepsComponent {
     const currentSoundId = this.soundsOrderById[this.currentSoundIndex];
     // make sure sound is rated
     this.setSoundRating(currentSoundId, this.getSoundRating(currentSoundId));
-
-    this.currentSoundIndex += 1;
-    console.log('this.currentSoundIndex', this.currentSoundIndex);
-    const sound = this.getCurrentSound();
-    console.log('sound', sound);
-    if (this.currentSoundIndex === this.soundsOrderById?.length) {
+  
+    if (this.currentSoundIndex === this.soundsOrderById?.length - 1) {
       // done
       this.misoquestWithAudioForm.controls.isAllRated.setValue('true');
 
@@ -161,10 +166,17 @@ export class StepsComponent {
       this.caulculatedResults = this.calculateResults();
       requestAnimationFrame(() => {
         stepper.next();
-        // make sure we can go back
-        this.currentSoundIndex -= 1;
       });
+    } else {
+      this.currentSoundIndex += 1;
     }
+  }
+
+  public onPreviousAudioButton(): void {
+    if (this.currentSoundIndex === -1) {
+      return;
+    }
+    this.currentSoundIndex -= 1;
   }
 
   public setSoundRating(soundId: string, rating: number): void {

@@ -99,9 +99,6 @@ interface LangText {
                 misoquest: {
                   title: string;
                   content: {
-                    nextButton: {
-                      label: string;
-                    };
                     controllerLabel: {
                       title: string;
                     };
@@ -315,9 +312,6 @@ const text: LangTextObject = {
                   misoquest: {
                     title: 'MisoQuest',
                     content: {
-                      nextButton: {
-                        label: 'Next'
-                      },
                       controllerLabel: {
                         title: 'Controller'
                       },
@@ -662,9 +656,6 @@ const text: LangTextObject = {
                   misoquest: {
                     title: 'מיסוקווסט',
                     content: {
-                      nextButton: {
-                        label: 'הבא'
-                      },
                       controllerLabel: {
                         title: 'בקר'
                       },

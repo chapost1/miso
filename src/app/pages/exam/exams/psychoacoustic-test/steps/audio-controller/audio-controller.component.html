@@ -1,6 +1,6 @@
 <div class="audio-controller">
     <div class="d-flex flex-column">
-        <div class="d-flex align-items-center audio-controller-slider {{langService.currentLang.dir}}">
+        <div class="mx-auto d-flex align-items-center audio-controller-slider {{langService.currentLang.dir}}">
             <mat-icon>{{langService.currentLang.dir
                 == 'rtl' ? 'volume_up': 'volume_down'}}</mat-icon>
             <mat-slider [min]="0" [max]="1" [step]="0.1" (input)="onVolumeChangeHandler($event)">
@@ -10,10 +10,24 @@
                 == 'rtl' ? 'volume_down': 'volume_up'}}</mat-icon>
         </div>
 
-        <!--Icon for play/pause-->
-        <div class="d-flex align-items-center mx-auto">
-            <button mat-fab color="primary" (click)="playPause()">
+
+        <!--Controls-->
+        <div class="mx-auto d-flex align-items-center">
+            <!-- Prev button-->
+            <button mat-mini-fab class="mx-1" color="primary" (click)="onPreviousHandler()"
+                [disabled]="isPreviousButtonDisabled">
+                <mat-icon>{{langService.currentLang.dir
+                    == 'rtl' ? 'skip_next': 'skip_previous'}}</mat-icon>
+            </button>
+            <!-- Play/Pause button-->
+            <button mat-fab class="mx-1" color="primary" (click)="onPlayPauseToggleHandler()">
                 <mat-icon>{{isPlaying ? 'pause' : 'play_arrow'}}</mat-icon>
+            </button>
+            <!-- Next button-->
+            <button mat-mini-fab class="mx-1" color="primary" (click)="onNextHandler()"
+                [disabled]="isNextButtonDisabled">
+                <mat-icon>{{langService.currentLang.dir
+                    == 'rtl' ? 'skip_previous': 'skip_next'}}</mat-icon>
             </button>
         </div>
     </div>
